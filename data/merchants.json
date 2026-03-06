@@ -1,0 +1,41 @@
+{
+  "zen-spa": {
+    "companyName": "Nickie's Beautique",
+    "bankInfo": "Khan Bank MN090005005720977297",
+    "managerPhone": "80511155",
+    "brandName": "Nickie's beauty salon",
+    "brandLogo": "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=200&q=80",
+    "shortIntro": "Манай салон нь Гоо сайхны бүх төрлийн үйлчилгээ явуулдаг бөгөөд PMU гоо сайхны шивээс, Галбиржуулан тураах, Толгойн спа, Нярайн бариаг мэргэжлийн хамт олон ажилдаг билээ",
+    "addressBranches": [
+      "Салбар 1: UB Tower Floor 10 #1006",
+      "Салбар 2: King luxury apartment 143/1 floor 2"
+    ],
+    "contactPhones": ["77012626", "80007563"],
+    "facebook": "https://www.facebook.com/nickie.salon?mibextid=LQQJ4d",
+    "instagram": "https://www.instagram.com/nickiesalon?igsh=MWtwc2lhdm5qcmxn&utm_source=qr",
+    "email": "ujin.nickie@gmail.com",
+    "website": "https://www.chatplus.mn/book/nickies-beauty",
+    "workingHours": "09:00–20:00",
+    "gallery": [
+      "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&q=80",
+      "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=600&q=80",
+      "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=600&q=80"
+    ]
+  },
+  "rosewood-restaurant": {
+    "companyName": "Rosewood Restaurant LLC",
+    "bankInfo": "Khan Bank MN090001234567890",
+    "managerPhone": "70123456",
+    "brandName": "Rosewood Restaurant",
+    "brandLogo": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=200&q=80",
+    "shortIntro": "Premium dining experience in central Ulaanbaatar with Mongolian and international cuisine.",
+    "addressBranches": ["Sukhbaatar Square, Central Ulaanbaatar"],
+    "contactPhones": ["70123456"],
+    "email": "info@rosewood.mn",
+    "workingHours": "11:00–23:00",
+    "gallery": [
+      "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80",
+      "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80"
+    ]
+  }
+}
