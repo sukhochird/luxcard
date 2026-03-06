@@ -94,7 +94,7 @@ export function GiftsPagination({
           {pageNumbers.map((n) => (
             <Button
               key={n}
-              variant={n === page ? "default" : "ghost"}
+              variant={n === page ? "primary" : "ghost"}
               size="icon"
               className={cn("size-9 shrink-0", n === page && "pointer-events-none")}
               aria-label={n === page ? `Хуудас ${n}, одоогийн` : `Хуудас ${n}`}
