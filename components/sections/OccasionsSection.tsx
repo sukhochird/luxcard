@@ -25,7 +25,7 @@ const OCCASIONS: {
   {
     key: "Lunar New Year",
     label: "Сар шинийн баяр",
-    image: "https://images.unsplash.com/photo-1528360989277-021f1aa5f9e4?w=400&q=80",
+    image: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=400&q=80",
   },
   {
     key: "Valentine's",
@@ -55,7 +55,7 @@ const OCCASIONS: {
   {
     key: "Graduation",
     label: "Төгсөлт",
-    image: "https://images.unsplash.com/photo-1523050872442-44f16316b9f7?w=400&q=80",
+    image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400&q=80",
   },
   {
     key: "Housewarming",

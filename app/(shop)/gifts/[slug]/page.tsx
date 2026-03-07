@@ -45,7 +45,7 @@ export default async function GiftDetailPage({ params }: PageProps) {
       </nav>
 
       <article className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-14">
-        <div className="min-w-0 flex flex-col gap-6">
+        <div className="min-w-0 flex flex-col gap-6 lg:max-w-[580px]">
           <ImageCarousel images={images} alt={gift.title} />
           <GiftDetailsSection gift={gift} />
         </div>

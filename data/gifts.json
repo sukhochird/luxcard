@@ -20,6 +20,11 @@
     ],
     "featured": true,
     "image": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80",
+      "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80",
+      "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=600&q=80"
+    ],
     "description": "Premium dining experience in central Ulaanbaatar with Mongolian and international cuisine.",
     "discountPercent": 10
   },
@@ -43,6 +48,11 @@
     ],
     "featured": true,
     "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80",
+      "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=80",
+      "https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=600&q=80"
+    ],
     "description": "Specialty coffee and fresh pastries in the heart of Sukhbaatar district.",
     "discountPercent": 15
   },
@@ -92,6 +102,10 @@
     ],
     "featured": false,
     "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80",
+      "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&q=80"
+    ],
     "description": "Month-long gym access and group class packages."
   },
   {
@@ -114,6 +128,10 @@
     ],
     "featured": true,
     "image": "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80",
+      "https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=600&q=80"
+    ],
     "description": "One-night stay or dining credit at a leading Ulaanbaatar hotel.",
     "discountPercent": 10
   },
@@ -135,6 +153,10 @@
     ],
     "featured": false,
     "image": "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=600&q=80",
+      "https://images.unsplash.com/photo-1503095396549-807759245b35?w=600&q=80"
+    ],
     "description": "Movie tickets and concessions for two at modern cinemas.",
     "discountPercent": 5
   },
@@ -157,6 +179,10 @@
     ],
     "featured": false,
     "image": "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600&q=80",
+      "https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=600&q=80"
+    ],
     "description": "Day trip or experience credit toward Gobi and countryside tours."
   },
   {
@@ -180,6 +206,10 @@
     ],
     "featured": false,
     "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&q=80",
+      "https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=600&q=80"
+    ],
     "description": "Gift card for shopping across all departments in the historic store."
   },
   {
@@ -200,6 +230,10 @@
     ],
     "featured": true,
     "image": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80",
+      "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80"
+    ],
     "description": "Fine dining with traditional and fusion dishes near Sukhbaatar Square."
   },
   {
@@ -221,6 +255,11 @@
     ],
     "featured": true,
     "image": "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=600&q=80",
+      "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=600&q=80",
+      "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&q=80"
+    ],
     "description": "Luxury spa treatments and massage in a serene environment."
   },
   {
@@ -241,6 +280,10 @@
     ],
     "featured": false,
     "image": "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=600&q=80",
+      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80"
+    ],
     "description": "Coffee and light meals in Darkhan city center."
   },
   {
@@ -261,6 +304,10 @@
     ],
     "featured": true,
     "image": "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=600&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80"
+    ],
     "description": "Resort stay or activity package in the Terelj valley."
   },
   {
@@ -281,6 +328,10 @@
     ],
     "featured": false,
     "image": "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&q=80",
+      "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=600&q=80"
+    ],
     "description": "Hair, nails, and facial treatments in Erdenet."
   },
   {
@@ -302,6 +353,10 @@
     ],
     "featured": true,
     "image": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80",
+      "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=600&q=80"
+    ],
     "description": "Upscale Mongolian and international cuisine in Sukhbaatar Square."
   },
   {
@@ -321,6 +376,10 @@
     ],
     "featured": false,
     "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=80",
+      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80"
+    ],
     "description": "Specialty coffee and pastries in a cozy setting."
   },
   {
@@ -341,6 +400,10 @@
     ],
     "featured": false,
     "image": "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&q=80",
+      "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80"
+    ],
     "description": "Gym membership and personal training packages in Darkhan."
   },
   {
@@ -362,6 +425,10 @@
     ],
     "featured": true,
     "image": "https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=600&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80"
+    ],
     "description": "Luxury hotel stay or dining credit in the heart of the city."
   },
   {
@@ -383,6 +450,10 @@
     ],
     "featured": false,
     "image": "https://images.unsplash.com/photo-1503095396549-807759245b35?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1503095396549-807759245b35?w=600&q=80",
+      "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=600&q=80"
+    ],
     "description": "Theatre tickets and cultural performances."
   },
   {
@@ -404,6 +475,10 @@
     ],
     "featured": false,
     "image": "https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=600&q=80",
+      "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600&q=80"
+    ],
     "description": "Adventure tours and experiences across the Mongolian steppe."
   },
   {
@@ -425,6 +500,10 @@
     ],
     "featured": false,
     "image": "https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=600&q=80",
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&q=80"
+    ],
     "description": "Shopping credit at the largest market in Ulaanbaatar."
   },
   {
@@ -445,6 +524,10 @@
     ],
     "featured": false,
     "image": "https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=600&q=80",
+      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80"
+    ],
     "description": "Specialty coffee and light bites in Erdenet."
   },
   {
@@ -466,6 +549,10 @@
     ],
     "featured": false,
     "image": "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=600&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=600&q=80",
+      "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80"
+    ],
     "description": "Authentic Mongolian ger-style dining and traditional dishes."
   },
   {
