@@ -34,6 +34,8 @@ const MAIN_LINKS = [
 
 const MEGA_MENU_CATEGORIES: { href: string; label: string }[] = [
   { href: "/about", label: "Танилцуулга" },
+  { href: "/pricing", label: "Үнийн төлөвлөгөө" },
+  { href: "/merchant/login", label: "Худалдаа эрхлэгч нэвтрэх" },
   { href: "/blog", label: "Блог" },
   { href: "/careers", label: "Карьер" },
 ];

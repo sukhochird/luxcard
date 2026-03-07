@@ -1,9 +1,22 @@
+import type { Metadata } from "next";
 import { apiGet } from "@/lib/api/client";
 import type { Gift, GiftsListResponse } from "@/lib/types";
 import { GiftsSidebar } from "@/components/filters/GiftsSidebar";
 import { GiftGrid } from "@/components/gift/GiftGrid";
 import { GiftsBreadcrumb } from "@/components/gift/GiftsBreadcrumb";
 import { GiftsPagination } from "@/components/gift/GiftsPagination";
+
+export const metadata: Metadata = {
+  title: "Бэлгийн картууд",
+  description:
+    "Монгол дахь ресторан, кофе шоп, спа, зочид буудал зэрэг орон нутгийн бизнесийн бэлгийн картууд. Шүүж сонгоно уу.",
+  openGraph: {
+    title: "Бэлгийн картууд — LuxCard",
+    description:
+      "Монгол дахь орон нутгийн бизнесийн бэлгийн картууд. Ресторан, кофе, спа, туршлага.",
+    url: "/gifts",
+  },
+};
 
 interface PageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;

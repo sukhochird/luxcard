@@ -8,8 +8,9 @@ const FOOTER_LINKS = {
     { label: "Хэвлэл", href: "#" },
   ],
   merchants: [
+    { label: "Үнийн төлөвлөгөө", href: "/pricing" },
     { label: "Хамтрагч болох", href: "#" },
-    { label: "Нэвтрэх (худалдаа эрхлэгч)", href: "#" },
+    { label: "Нэвтрэх (худалдаа эрхлэгч)", href: "/merchant/login" },
   ],
   support: [
     { label: "Тусламж", href: "#" },

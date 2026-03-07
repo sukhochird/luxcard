@@ -52,12 +52,15 @@ interface MerchantInfoProps {
   merchant: MerchantType;
   className?: string;
   showTrustBadges?: boolean;
+  /** Modal дотор ашиглахад картын хүрээ (border, shadow) арилгана */
+  noFrame?: boolean;
 }
 
 function MerchantInfoComponent({
   merchant,
   className,
   showTrustBadges = true,
+  noFrame = false,
 }: MerchantInfoProps) {
   const {
     brandName,
@@ -91,13 +94,13 @@ function MerchantInfoComponent({
   return (
     <section
       className={cn(
-        "rounded-2xl border border-foreground/10 bg-background shadow-sm transition-shadow duration-200 overflow-hidden",
+        !noFrame && "rounded-2xl border border-foreground/10 bg-background shadow-sm transition-shadow duration-200 overflow-hidden",
         className
       )}
       aria-labelledby="merchant-heading"
     >
       {/* Header: brand + logo + intro */}
-      <div className="border-b border-foreground/10 px-6 py-5 sm:px-8 sm:py-6">
+      <div className={cn("px-6 py-5 sm:px-8 sm:py-6", !noFrame && "border-b border-foreground/10")}>
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-6">
           {brandLogo && (
             <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-foreground/5">

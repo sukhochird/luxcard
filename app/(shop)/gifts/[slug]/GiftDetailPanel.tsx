@@ -14,7 +14,7 @@ import { PriceSelector } from "./PriceSelector";
 import { TrustIndicators } from "./TrustIndicators";
 import { MerchantInfo } from "./MerchantInfo";
 import { cn } from "@/lib/utils";
-import { X } from "lucide-react";
+import { X, Share2, Heart } from "lucide-react";
 
 const DESCRIPTION_TRUNCATE = 180;
 
@@ -68,6 +68,8 @@ function GiftDetailPanelComponent({ card }: GiftDetailPanelProps) {
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
   const [merchantModalOpen, setMerchantModalOpen] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [shareDone, setShareDone] = useState(false);
   const merchantModalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -118,6 +120,29 @@ function GiftDetailPanelComponent({ card }: GiftDetailPanelProps) {
     router.push("/checkout");
   };
 
+  const handleShare = async () => {
+    const url = typeof window !== "undefined" ? window.location.href : "";
+    const title = `${gift.title} — ${gift.merchant}`;
+    const text = `${gift.title}. ${gift.merchant}, ${gift.location}.`;
+    try {
+      if (typeof navigator !== "undefined" && navigator.share) {
+        await navigator.share({ title, text, url });
+        setShareDone(true);
+        setTimeout(() => setShareDone(false), 2000);
+      } else {
+        await navigator.clipboard?.writeText(url);
+        setShareDone(true);
+        setTimeout(() => setShareDone(false), 2000);
+      }
+    } catch {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(url);
+        setShareDone(true);
+        setTimeout(() => setShareDone(false), 2000);
+      }
+    }
+  };
+
   return (
     <>
       <div className="flex flex-col rounded-2xl border border-foreground/10 bg-background p-6 shadow-sm transition-shadow duration-200 hover:shadow-md sm:p-8 lg:sticky lg:top-24">
@@ -132,9 +157,41 @@ function GiftDetailPanelComponent({ card }: GiftDetailPanelProps) {
             </Badge>
           ))}
         </div>
-        <h1 className="mt-4 text-2xl font-bold text-foreground sm:text-3xl">
-          {gift.title}
-        </h1>
+        <div className="mt-4 flex items-start justify-between gap-4">
+          <h1 className="text-2xl font-bold text-foreground sm:text-3xl min-w-0">
+            {gift.title}
+          </h1>
+          <div className="flex shrink-0 items-center gap-1">
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className={cn(
+                "rounded-full text-foreground/70 hover:text-foreground hover:bg-foreground/10",
+                shareDone && "text-primary"
+              )}
+              onClick={handleShare}
+              aria-label={shareDone ? "Холбоос хуулагдсан" : "Хуваалцах"}
+            >
+              <Share2 className="size-5" />
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className={cn(
+                "rounded-full text-foreground/70 hover:text-foreground hover:bg-foreground/10",
+                isFavorite && "text-red-500 hover:text-red-500"
+              )}
+              onClick={() => setIsFavorite((f) => !f)}
+              aria-label={isFavorite ? "Дуртай жагсаалтаас хасах" : "Дуртай жагсаалтад нэмэх"}
+            >
+              <Heart
+                className={cn("size-5", isFavorite && "fill-current")}
+              />
+            </Button>
+          </div>
+        </div>
         <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
           <p className="text-foreground/80">{gift.merchant}</p>
           <span className="text-foreground/40" aria-hidden>·</span>
@@ -286,7 +343,7 @@ function GiftDetailPanelComponent({ card }: GiftDetailPanelProps) {
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-foreground/60 backdrop-blur-sm"
           onClick={(e) => e.target === e.currentTarget && setMerchantModalOpen(false)}
         >
-          <div className="relative w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-2xl border border-foreground/10 bg-background shadow-xl">
+          <div className="relative w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-2xl bg-background shadow-xl">
             <div className="sticky top-0 z-10 flex items-center justify-between border-b border-foreground/10 bg-background px-4 py-3">
               <h2 id="merchant-modal-heading" className="text-lg font-semibold text-foreground">
                 Байршил болон мэдээлэл
@@ -301,7 +358,7 @@ function GiftDetailPanelComponent({ card }: GiftDetailPanelProps) {
               </button>
             </div>
             <div className="p-4">
-              <MerchantInfo merchant={merchant} showTrustBadges={false} />
+              <MerchantInfo merchant={merchant} showTrustBadges={false} noFrame />
             </div>
           </div>
         </div>

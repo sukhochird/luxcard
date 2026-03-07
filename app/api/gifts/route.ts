@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import giftsData from "@/data/gifts.json";
+import { loadGifts } from "@/lib/gifts-data";
 import type { Gift } from "@/lib/types";
-
-const gifts = giftsData as Gift[];
 
 const PRICE_MIN = 0;
 const PRICE_MAX = 500000;
@@ -16,6 +14,7 @@ export async function GET(request: NextRequest) {
   const priceMax = searchParams.get("priceMax");
   const featured = searchParams.get("featured") === "true";
 
+  const gifts = loadGifts();
   let result = [...gifts];
 
   if (featured) {
