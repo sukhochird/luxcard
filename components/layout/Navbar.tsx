@@ -304,13 +304,13 @@ function NavbarComponent() {
         scrolled ? "border-foreground/10 shadow-md" : "border-foreground/10"
       )}
     >
-      <div className="mx-auto flex h-16 w-full max-w-7xl items-center gap-4 px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
-        <div className="flex shrink-0 items-center gap-4">
+      <div className="mx-auto flex h-14 w-full max-w-7xl items-center gap-2 px-3 sm:h-16 sm:gap-4 sm:px-6 sm:py-2 lg:px-8">
+        <div className="flex min-w-0 shrink items-center gap-2 sm:gap-4">
           <Link
             href="/"
             className={cn(
               fontLogo.className,
-              "text-lg font-semibold text-foreground transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded sm:text-xl"
+              "truncate text-base font-semibold text-foreground transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded sm:text-xl"
             )}
             aria-label="LuxCard нүүр"
           >
@@ -344,11 +344,11 @@ function NavbarComponent() {
           </div>
         </div>
 
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="flex shrink-0 items-center gap-0.5 sm:gap-2">
           <button
             type="button"
             onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-            className="rounded-lg p-2 text-foreground/80 transition-colors hover:bg-foreground/5 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            className="flex min-h-11 min-w-11 items-center justify-center rounded-xl text-foreground/80 transition-colors active:bg-foreground/10 hover:bg-foreground/5 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:rounded-lg sm:min-w-0 sm:min-h-0 sm:p-2"
             aria-label={resolvedTheme === "dark" ? "Гэрэлтэй горим" : "Харанхуй горим"}
           >
             <Sun className="size-5 dark:hidden" aria-hidden />
@@ -357,12 +357,12 @@ function NavbarComponent() {
           <button
             type="button"
             onClick={openCartDrawer}
-            className="relative rounded-lg p-2 text-foreground/80 transition-colors hover:bg-foreground/5 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            className="relative flex min-h-11 min-w-11 items-center justify-center rounded-xl text-foreground/80 transition-colors active:bg-foreground/10 hover:bg-foreground/5 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:rounded-lg sm:min-w-0 sm:min-h-0 sm:p-2"
             aria-label={cartCount > 0 ? `Сагс, ${cartCount} бараа` : "Сагс"}
           >
             <ShoppingCart className="size-5" aria-hidden />
             {cartCount > 0 && (
-              <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-white">
+              <span className="absolute right-0.5 top-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-white ring-2 ring-background sm:-right-0.5 sm:-top-0.5 sm:h-4 sm:min-w-4">
                 {cartCount > 99 ? "99+" : cartCount}
               </span>
             )}
@@ -439,10 +439,10 @@ function NavbarComponent() {
           <button
             type="button"
             onClick={() => setMobileOpen((o) => !o)}
-            className="rounded-lg p-2 text-foreground/80 hover:bg-foreground/5 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 md:hidden"
+            className="flex min-h-11 min-w-11 items-center justify-center rounded-xl text-foreground/80 transition-colors active:bg-foreground/10 hover:bg-foreground/5 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:rounded-lg sm:min-w-0 sm:min-h-0 sm:p-2 md:hidden"
             aria-expanded={mobileOpen}
             aria-controls="mobile-menu"
-            aria-label="Цэс нээх/хаах"
+            aria-label={mobileOpen ? "Цэс хаах" : "Цэс нээх"}
           >
             {mobileOpen ? <X className="size-6" /> : <Menu className="size-6" />}
           </button>
@@ -452,8 +452,8 @@ function NavbarComponent() {
       <div
         id="mobile-menu"
         className={cn(
-          "fixed inset-0 top-16 z-40 bg-background/95 backdrop-blur md:hidden",
-          "transition-all duration-200 ease-out",
+          "fixed inset-0 top-14 z-40 bg-background/98 backdrop-blur-md md:hidden",
+          "transition-[opacity,visibility] duration-300 ease-out",
           mobileOpen
             ? "opacity-100 visible"
             : "pointer-events-none invisible opacity-0"
@@ -461,9 +461,20 @@ function NavbarComponent() {
         aria-hidden={!mobileOpen}
         onClick={(e) => e.target === e.currentTarget && closeMobile()}
       >
+        <div className="flex h-14 shrink-0 items-center justify-between border-b border-foreground/10 px-4 md:hidden">
+          <span className="text-sm font-medium text-foreground/70">Цэс</span>
+          <button
+            type="button"
+            onClick={closeMobile}
+            className="flex min-h-11 min-w-11 items-center justify-center rounded-xl text-foreground/80 hover:bg-foreground/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            aria-label="Цэс хаах"
+          >
+            <X className="size-5" />
+          </button>
+        </div>
         <nav
           className={cn(
-            "flex flex-col gap-1 overflow-auto p-4 transition-transform duration-200 ease-out",
+            "flex flex-col gap-1 overflow-auto overscroll-contain p-4 pb-8 transition-transform duration-300 ease-out",
             mobileOpen ? "translate-x-0" : "translate-x-4"
           )}
           aria-label="Гар утасны цэс"
