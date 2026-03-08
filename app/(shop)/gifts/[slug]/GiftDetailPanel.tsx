@@ -14,7 +14,7 @@ import { PriceSelector } from "./PriceSelector";
 import { TrustIndicators } from "./TrustIndicators";
 import { MerchantInfo } from "./MerchantInfo";
 import { cn } from "@/lib/utils";
-import { X, Share2, Heart } from "lucide-react";
+import { X, Share2, Heart, ShoppingCart } from "lucide-react";
 
 const DESCRIPTION_TRUNCATE = 180;
 
@@ -306,32 +306,34 @@ function GiftDetailPanelComponent({ card }: GiftDetailPanelProps) {
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 z-40 flex items-center justify-between gap-4 border-t border-foreground/10 bg-background/95 p-4 backdrop-blur lg:hidden">
-        <div>
-          <p className="text-sm text-foreground/70">Нийт</p>
-          <p className="text-xl font-bold text-foreground">
+      <div
+        className="fixed bottom-0 left-0 right-0 z-[100] flex items-center gap-3 border-t border-foreground/10 bg-background px-4 py-3 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] lg:hidden"
+        style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
+      >
+        <div className="min-w-0 flex-1">
+          <p className="text-xs text-foreground/60">Үнэ</p>
+          <p className="text-lg font-bold text-foreground tabular-nums">
             {total.toLocaleString()}₮
           </p>
         </div>
-        <div className="flex gap-2">
-          <Button
-            type="button"
-            variant="secondary"
-            size="lg"
-            className="rounded-2xl"
-            onClick={handleAddToCart}
-          >
-            Сагсанд нэмэх
-          </Button>
-          <Button
-            size="lg"
-            className="shrink-0 rounded-2xl bg-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-            style={{ backgroundColor: "#0052FF" }}
-            onClick={handleBuyNow}
-          >
-            Одоо худалдаж авах
-          </Button>
-        </div>
+        <Button
+          size="lg"
+          className="shrink-0 rounded-2xl bg-primary px-5 font-semibold focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+          style={{ backgroundColor: "#0052FF" }}
+          onClick={handleBuyNow}
+        >
+          Шууд авах
+        </Button>
+        <Button
+          type="button"
+          variant="secondary"
+          size="icon"
+          className="h-12 w-12 shrink-0 rounded-2xl"
+          onClick={handleAddToCart}
+          aria-label={added ? "Нэмэгдсэн" : "Сагсанд хийх"}
+        >
+          <ShoppingCart className={cn("size-5", added && "text-primary")} />
+        </Button>
       </div>
 
       {merchantModalOpen && merchant && (
