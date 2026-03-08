@@ -54,7 +54,7 @@ export async function PATCH(
   ] as const;
   for (const key of allowed) {
     if (body[key] !== undefined) {
-      (current as Record<string, unknown>)[key] = body[key];
+      (current as unknown as Record<string, unknown>)[key] = body[key];
     }
   }
   if (Array.isArray(current.occasion)) {

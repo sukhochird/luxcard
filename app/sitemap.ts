@@ -10,25 +10,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: SITE_URL,
-      lastmodified: new Date(),
+      lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 1,
     },
     {
       url: `${SITE_URL}/gifts`,
-      lastmodified: new Date(),
+      lastModified: new Date(),
       changeFrequency: "daily",
       priority: 0.9,
     },
     {
       url: `${SITE_URL}/about`,
-      lastmodified: new Date(),
+      lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.6,
     },
     {
       url: `${SITE_URL}/pricing`,
-      lastmodified: new Date(),
+      lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.7,
     },
@@ -36,7 +36,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const giftPages: MetadataRoute.Sitemap = gifts.map((g) => ({
     url: `${SITE_URL}/gifts/${g.slug}`,
-    lastmodified: new Date(),
+    lastModified: new Date(),
     changeFrequency: "weekly" as const,
     priority: 0.8,
   }));
