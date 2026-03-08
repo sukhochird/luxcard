@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Eye, Pencil, Gift } from "lucide-react";
+import { Eye, Pencil, Gift as GiftIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import type { Gift, GiftsListResponse } from "@/lib/types";
@@ -31,7 +31,7 @@ export default async function MerchantGiftsListPage() {
         {gifts.length === 0 ? (
           <div className="flex flex-col items-center justify-center gap-4 py-16 px-4">
             <div className="flex size-16 items-center justify-center rounded-2xl bg-foreground/5">
-              <Gift className="size-8 text-foreground/40" />
+              <GiftIcon className="size-8 text-foreground/40" />
             </div>
             <p className="text-sm font-medium text-foreground/70">
               Бэлгийн карт байхгүй байна
