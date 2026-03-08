@@ -304,8 +304,21 @@ function NavbarComponent() {
         scrolled ? "border-foreground/10 shadow-md" : "border-foreground/10"
       )}
     >
-      <div className="mx-auto flex h-14 w-full max-w-7xl items-center gap-2 px-3 sm:h-16 sm:gap-4 sm:px-6 sm:py-2 lg:px-8">
-        <div className="flex min-w-0 shrink items-center gap-2 sm:gap-4">
+      <div className="mx-auto grid h-14 w-full max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-2 px-3 sm:flex sm:h-16 sm:grid-cols-none sm:gap-4 sm:px-6 sm:py-2 lg:px-8">
+        {/* 1. Mobile: left — Hamburger. Desktop: not shown */}
+        <button
+          type="button"
+          onClick={() => setMobileOpen((o) => !o)}
+          className="flex min-h-11 min-w-11 items-center justify-center justify-self-start rounded-xl text-foreground/80 transition-colors active:bg-foreground/10 hover:bg-foreground/5 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:rounded-lg sm:min-w-0 sm:min-h-0 sm:p-2 md:hidden"
+          aria-expanded={mobileOpen}
+          aria-controls="mobile-menu"
+          aria-label={mobileOpen ? "Цэс хаах" : "Цэс нээх"}
+        >
+          {mobileOpen ? <X className="size-6" /> : <Menu className="size-6" />}
+        </button>
+
+        {/* 2. Mobile: center — Logo. Desktop: logo + nav */}
+        <div className="flex min-w-0 shrink items-center justify-center gap-2 sm:justify-start sm:gap-4">
           <Link
             href="/"
             className={cn(
@@ -338,13 +351,15 @@ function NavbarComponent() {
           </nav>
         </div>
 
+        {/* 3. Mobile: hidden. Desktop: search */}
         <div className="hidden min-w-0 flex-1 justify-center px-2 md:flex md:px-4">
           <div className="w-full max-w-md">
             <SearchBar />
           </div>
         </div>
 
-        <div className="flex shrink-0 items-center gap-0.5 sm:gap-2">
+        {/* 4. Mobile: right — Theme + Basket. Desktop: theme + basket + profile/login */}
+        <div className="flex shrink-0 items-center justify-end gap-0.5 sm:gap-2">
           <button
             type="button"
             onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
@@ -436,16 +451,6 @@ function NavbarComponent() {
               Нэвтрэх
             </Button>
           )}
-          <button
-            type="button"
-            onClick={() => setMobileOpen((o) => !o)}
-            className="flex min-h-11 min-w-11 items-center justify-center rounded-xl text-foreground/80 transition-colors active:bg-foreground/10 hover:bg-foreground/5 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:rounded-lg sm:min-w-0 sm:min-h-0 sm:p-2 md:hidden"
-            aria-expanded={mobileOpen}
-            aria-controls="mobile-menu"
-            aria-label={mobileOpen ? "Цэс хаах" : "Цэс нээх"}
-          >
-            {mobileOpen ? <X className="size-6" /> : <Menu className="size-6" />}
-          </button>
         </div>
       </div>
 
