@@ -338,7 +338,7 @@ function NavbarComponent() {
           </nav>
         </div>
 
-        <div className="flex min-w-0 flex-1 justify-center px-2 md:px-4">
+        <div className="hidden min-w-0 flex-1 justify-center px-2 md:flex md:px-4">
           <div className="w-full max-w-md">
             <SearchBar />
           </div>

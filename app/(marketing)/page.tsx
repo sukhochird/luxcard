@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { HeroSection } from "@/components/hero/HeroSection";
+
+const SearchBar = dynamic(
+  () => import("@/components/search/SearchBar").then((m) => ({ default: m.SearchBar })),
+  { ssr: false }
+);
 import { OccasionsSection } from "@/components/sections/OccasionsSection";
 import { FeaturedExperiences } from "@/components/sections/FeaturedExperiences";
 import { FeaturedGiftCardsSection } from "@/components/sections/FeaturedGiftCardsSection";
@@ -35,6 +41,11 @@ export default async function MarketingPage() {
   return (
     <>
       <Navbar />
+      <div className="md:hidden border-b border-foreground/10 bg-background px-4 py-3">
+        <div className="mx-auto max-w-7xl w-full">
+          <SearchBar />
+        </div>
+      </div>
       <main>
         <HeroSection heroBlurDataURL={heroBlur} />
         <OccasionsSection />

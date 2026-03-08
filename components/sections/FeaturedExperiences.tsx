@@ -51,7 +51,7 @@ export function FeaturedExperiences() {
       aria-label="Ангилалаар сонгох"
     >
       <div className="mx-auto max-w-7xl">
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="grid grid-cols-2 gap-4 xl:grid-cols-4">
           {EXPERIENCES.map((item, index) => (
             <Link
               key={item.title}

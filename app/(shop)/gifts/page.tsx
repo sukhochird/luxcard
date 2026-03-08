@@ -76,7 +76,9 @@ export default async function GiftsListPage({ searchParams }: PageProps) {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
-      <GiftsBreadcrumb activeFilter={activeFilter} />
+      <div className="rounded-xl border border-foreground/10 bg-background px-4 py-3 sm:px-4">
+        <GiftsBreadcrumb activeFilter={activeFilter} />
+      </div>
       <h1 className="mt-3 text-2xl font-bold text-foreground sm:text-3xl">
         Бэлгийн картууд
       </h1>
