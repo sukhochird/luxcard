@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+const SWIPE_THRESHOLD = 50;
 
 /** CR80 card size aspect ratio: 85.6mm × 53.98mm ≈ 1.586 */
 const CR80_ASPECT = 85.6 / 53.98;
@@ -29,6 +30,8 @@ const SLIDES = [
 
 export function MobileHeroCR80Slider() {
   const [index, setIndex] = useState(0);
+  const touchStartX = useRef<number>(0);
+  const justSwiped = useRef(false);
 
   const goTo = useCallback((i: number) => {
     setIndex((prev) => {
@@ -42,14 +45,42 @@ export function MobileHeroCR80Slider() {
     return () => clearInterval(t);
   }, [index, goTo]);
 
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    justSwiped.current = false;
+  }, []);
+
+  const handleTouchEnd = useCallback(
+    (e: React.TouchEvent) => {
+      const endX = e.changedTouches[0].clientX;
+      const diff = touchStartX.current - endX;
+      if (Math.abs(diff) > SWIPE_THRESHOLD) {
+        justSwiped.current = true;
+        if (diff > 0) goTo(index + 1);
+        else goTo(index - 1);
+        setTimeout(() => {
+          justSwiped.current = false;
+        }, 300);
+      }
+    },
+    [index, goTo]
+  );
+
+  const handleLinkClick = useCallback((e: React.MouseEvent) => {
+    if (justSwiped.current) e.preventDefault();
+  }, []);
+
   return (
     <section
       className="md:hidden"
       aria-label="Онцлох бэлгийн карт"
     >
-      <div className="px-4 pt-4 pb-2">
-        <div className="mx-auto max-w-[320px]">
-          <div className="relative overflow-hidden rounded-2xl shadow-xl ring-1 ring-foreground/10">
+      <div className="pt-4 pb-2">
+        <div
+          className="relative w-full overflow-hidden touch-pan-y"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
             {/* CR80 aspect ratio container */}
             <div
               className="relative w-full"
@@ -59,6 +90,7 @@ export function MobileHeroCR80Slider() {
                 <Link
                   key={i}
                   href={slide.href}
+                  onClick={handleLinkClick}
                   className={cn(
                     "absolute inset-0 block transition-opacity duration-500",
                     i === index ? "z-0 opacity-100" : "z-[-1] opacity-0"
@@ -69,38 +101,14 @@ export function MobileHeroCR80Slider() {
                     src={slide.image}
                     alt={i === index ? slide.alt : ""}
                     fill
-                    sizes="320px"
-                    className="object-cover"
+                    sizes="100vw"
+                    className="object-cover pointer-events-none"
                     priority={i === 0}
                   />
-                  <span className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" aria-hidden />
+                  <span className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" aria-hidden />
                 </Link>
               ))}
             </div>
-
-            {/* Arrows */}
-            <button
-              type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                goTo(index - 1);
-              }}
-              className="absolute left-1 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-foreground shadow-md transition-colors hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-              aria-label="Өмнөх"
-            >
-              <ChevronLeft className="size-5" />
-            </button>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                goTo(index + 1);
-              }}
-              className="absolute right-1 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-foreground shadow-md transition-colors hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-              aria-label="Дараагийн"
-            >
-              <ChevronRight className="size-5" />
-            </button>
 
             {/* Dots */}
             <div
@@ -127,7 +135,6 @@ export function MobileHeroCR80Slider() {
               ))}
             </div>
           </div>
-        </div>
       </div>
     </section>
   );

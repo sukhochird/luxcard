@@ -103,7 +103,7 @@ export function OccasionsSection() {
   return (
     <section
       id="occasions"
-      className="border-t border-foreground/10 bg-background px-4 py-6 sm:px-6 lg:px-8"
+      className="border-t-0 bg-background px-4 py-6 sm:px-6 md:border-t md:border-foreground/10 lg:px-8"
       aria-labelledby="occasions-heading"
     >
       <div className="mx-auto max-w-7xl">

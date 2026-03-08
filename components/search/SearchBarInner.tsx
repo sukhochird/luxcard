@@ -106,7 +106,7 @@ export function SearchBarInner() {
               : undefined
           }
           className={cn(
-            "w-full rounded-full border-foreground/20 py-2 pl-11 pr-4",
+            "w-full rounded-full border-foreground/20 py-2 pl-11 pr-4 text-base",
             "focus-visible:ring-2 focus-visible:ring-primary"
           )}
         />

@@ -9,7 +9,7 @@ const SearchBar = dynamic(
 
 export function MobileSearchStrip() {
   return (
-    <div className="md:hidden border-b border-foreground/10 bg-background/95 backdrop-blur-sm px-3 py-2.5">
+    <div className="md:hidden bg-background/95 backdrop-blur-sm px-3 py-2.5">
       <div className="mx-auto max-w-7xl w-full">
         <SearchBar />
       </div>
