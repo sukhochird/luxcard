@@ -47,20 +47,11 @@ export function FeaturedExperiences() {
   return (
     <section
       id="featured-experiences"
-      className="px-4 py-20 sm:px-6 lg:px-8"
-      aria-labelledby="featured-experiences-heading"
+      className="px-4 py-6 sm:px-6 lg:px-8"
+      aria-label="Ангилалаар сонгох"
     >
       <div className="mx-auto max-w-7xl">
-        <h2
-          id="featured-experiences-heading"
-          className="text-3xl font-bold text-foreground sm:text-4xl"
-        >
-          Ангилалаар сонгох
-        </h2>
-        <p className="mt-3 max-w-2xl text-lg text-foreground/80">
-          Монгол дахь найдвартай бизнесүүдээс ангилалаар нь сонгоно уу.
-        </p>
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {EXPERIENCES.map((item, index) => (
             <Link
               key={item.title}

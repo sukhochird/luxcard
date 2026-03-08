@@ -1,11 +1,14 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ShieldCheck, Clock, Store, Gift, ChevronRight, ChevronLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+const PROGRESS_DURATION_MS = 5000;
+const PROGRESS_TICK_MS = 50;
 
 const FLOATING_BADGES = [
   { icon: Clock, label: "Шууд хүргэлт" },
@@ -46,8 +49,6 @@ const SLIDES = [
   },
 ];
 
-const AUTOPLAY_MS = 6000;
-
 export function HeroSection({
   heroBlurDataURL,
 }: {
@@ -55,12 +56,16 @@ export function HeroSection({
 } = {}) {
   const [index, setIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [progress, setProgress] = useState(1);
+  const startTimeRef = useRef<number>(Date.now());
 
   const goTo = useCallback((i: number) => {
     setIndex((prev) => {
       const next = i % SLIDES.length;
       return next < 0 ? next + SLIDES.length : next;
     });
+    setProgress(1);
+    startTimeRef.current = Date.now();
   }, []);
 
   const next = useCallback(() => goTo(index + 1), [index, goTo]);
@@ -68,7 +73,12 @@ export function HeroSection({
 
   useEffect(() => {
     if (isPaused) return;
-    const t = setInterval(() => goTo(index + 1), AUTOPLAY_MS);
+    const t = setInterval(() => {
+      const elapsed = Date.now() - startTimeRef.current;
+      const remaining = Math.max(0, 1 - elapsed / PROGRESS_DURATION_MS);
+      setProgress(remaining);
+      if (remaining <= 0) goTo(index + 1);
+    }, PROGRESS_TICK_MS);
     return () => clearInterval(t);
   }, [index, isPaused, goTo]);
 
@@ -140,7 +150,7 @@ export function HeroSection({
             <p className="mt-6 text-sm text-foreground/60">
               50+ орон нутгийн бизнес · Төлбөр аюулгүй
             </p>
-            {/* Slider controls - dots */}
+            {/* Slider controls - dots + progress */}
             <div className="mt-8 flex items-center gap-4">
               <div className="flex gap-2" role="tablist" aria-label="Hero слайд сонгох">
                 {SLIDES.map((_, i) => (
@@ -152,12 +162,21 @@ export function HeroSection({
                     aria-label={`Слайд ${i + 1}`}
                     onClick={() => goTo(i)}
                     className={cn(
-                      "h-2 rounded-full transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
-                      i === index
-                        ? "w-8 bg-primary"
-                        : "w-2 bg-foreground/25 hover:bg-foreground/40"
+                      "relative h-2 overflow-hidden rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+                      i === index ? "w-10" : "w-2 bg-foreground/25 hover:bg-foreground/40"
                     )}
-                  />
+                  >
+                    {i === index && (
+                      <span
+                        className="absolute inset-0 rounded-full bg-primary transition-none"
+                        style={{
+                          transform: `scaleX(${progress})`,
+                          transformOrigin: "left",
+                        }}
+                        aria-hidden
+                      />
+                    )}
+                  </button>
                 ))}
               </div>
               <div className="flex gap-1">
