@@ -109,7 +109,7 @@ export function GiftEditForm({ slug, gift }: GiftEditFormProps) {
         discountPercent:
           discountPercent === ""
             ? undefined
-            : Math.min(100, Math.max(0, parseInt(discountPercent, 10) || 0)),
+            : Math.min(100, Math.max(0, parseInt(String(discountPercent), 10) || 0)),
         howToUse: howToUse || undefined,
         termsOfUse: termsOfUse || undefined,
       });
