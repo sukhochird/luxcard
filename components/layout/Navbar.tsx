@@ -253,7 +253,6 @@ function NavbarComponent() {
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [companyOpen, setCompanyOpen] = useState(false);
-  const [companyExpanded, setCompanyExpanded] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -457,173 +456,163 @@ function NavbarComponent() {
       <div
         id="mobile-menu"
         className={cn(
-          "fixed inset-0 top-14 z-40 bg-background/98 backdrop-blur-md md:hidden",
+          "fixed inset-0 top-14 z-40 flex flex-col bg-background md:hidden",
           "transition-[opacity,visibility] duration-300 ease-out",
           mobileOpen
             ? "opacity-100 visible"
             : "pointer-events-none invisible opacity-0"
         )}
         aria-hidden={!mobileOpen}
-        onClick={(e) => e.target === e.currentTarget && closeMobile()}
       >
-        <div className="flex h-14 shrink-0 items-center justify-between border-b border-foreground/10 px-4 md:hidden">
-          <span className="text-sm font-medium text-foreground/70">Цэс</span>
-          <button
-            type="button"
-            onClick={closeMobile}
-            className="flex min-h-11 min-w-11 items-center justify-center rounded-xl text-foreground/80 hover:bg-foreground/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-            aria-label="Цэс хаах"
-          >
-            <X className="size-5" />
-          </button>
-        </div>
-        <nav
+        {/* Backdrop: tap to close */}
+        <button
+          type="button"
+          className="absolute inset-0 bg-foreground/20 backdrop-blur-sm md:hidden"
+          onClick={closeMobile}
+          aria-label="Цэс хаах"
+        />
+        {/* Panel */}
+        <div
           className={cn(
-            "flex flex-col gap-1 overflow-auto overscroll-contain p-4 pb-8 transition-transform duration-300 ease-out",
-            mobileOpen ? "translate-x-0" : "translate-x-4"
+            "relative z-10 flex w-full max-w-sm flex-1 flex-col border-r border-foreground/10 bg-background shadow-xl",
+            "transition-transform duration-300 ease-out",
+            mobileOpen ? "translate-x-0" : "-translate-x-full"
           )}
-          aria-label="Гар утасны цэс"
         >
-          {MAIN_LINKS.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={closeMobile}
-              className={cn(
-                "rounded-xl px-4 py-3 text-base font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
-                isActive(item.href)
-                  ? "bg-primary/10 text-primary"
-                  : "text-foreground hover:bg-foreground/5"
-              )}
-            >
-              {item.label}
-            </Link>
-          ))}
-          <div className="rounded-xl border border-foreground/10 bg-foreground/[0.02]">
+          <div className="flex h-14 shrink-0 items-center justify-between border-b border-foreground/10 px-4">
+            <span className="text-sm font-semibold text-foreground">Цэс</span>
             <button
               type="button"
-              onClick={() => setCompanyExpanded((e) => !e)}
-              aria-expanded={companyExpanded}
-              aria-controls="mobile-company-list"
-              className="flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-base font-medium text-foreground transition-colors hover:bg-foreground/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              onClick={closeMobile}
+              className="flex min-h-11 min-w-11 items-center justify-center rounded-xl text-foreground/70 hover:bg-foreground/10 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              aria-label="Хаах"
             >
-              Company
-              <ChevronDown
-                className={cn("size-5 shrink-0 transition-transform duration-200", companyExpanded && "rotate-180")}
-                aria-hidden
-              />
+              <X className="size-5" />
             </button>
-            <div
-              id="mobile-company-list"
-              className={cn(
-                "grid transition-all duration-300 ease-out",
-                companyExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-              )}
-            >
-              <div className="overflow-hidden">
-                <div className="space-y-1 border-t border-foreground/10 px-2 pb-3 pt-2">
-                  <span className="mb-1.5 block px-2 text-xs font-semibold uppercase tracking-wider text-foreground/50">
-                    Explore
-                  </span>
-                  {MEGA_MENU_CATEGORIES.map((item) => (
+          </div>
+
+          <nav
+            className="flex flex-1 flex-col gap-6 overflow-auto overscroll-contain p-4 pb-8"
+            aria-label="Гар утасны цэс"
+          >
+            {/* Main: Бэлгүүд */}
+            <section className="space-y-1">
+              <h2 className="sr-only">Үндсэн</h2>
+              {MAIN_LINKS.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={closeMobile}
+                  className={cn(
+                    "flex items-center gap-3 rounded-xl px-4 py-3.5 text-base font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset",
+                    isActive(item.href)
+                      ? "bg-primary/10 text-primary"
+                      : "text-foreground hover:bg-foreground/5"
+                  )}
+                >
+                  <Gift className="size-5 shrink-0 text-foreground/60" aria-hidden />
+                  {item.label}
+                </Link>
+              ))}
+            </section>
+
+            {/* Company / Компани */}
+            <section className="space-y-1">
+              <h2 className="px-2 text-xs font-semibold uppercase tracking-wider text-foreground/50">
+                Компани
+              </h2>
+              <ul className="space-y-0.5">
+                {MEGA_MENU_CATEGORIES.map((item) => (
+                  <li key={item.href}>
                     <Link
-                      key={item.href}
                       href={item.href}
                       onClick={closeMobile}
-                      className="flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium text-foreground hover:bg-primary/10 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset"
+                      className="flex items-center justify-between rounded-xl px-4 py-3.5 text-base font-medium text-foreground transition-colors hover:bg-foreground/5 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset"
                     >
                       {item.label}
-                      <ChevronRight className="size-4 text-foreground/40" aria-hidden />
+                      <ChevronRight className="size-4 shrink-0 text-foreground/40" aria-hidden />
                     </Link>
-                  ))}
-                  <span className="mb-1.5 mt-4 block px-2 text-xs font-semibold uppercase tracking-wider text-foreground/50">
-                    Why LuxCard
+                  </li>
+                ))}
+              </ul>
+            </section>
+
+            {/* Cart */}
+            <section className="space-y-1">
+              <h2 className="sr-only">Сагс</h2>
+              <button
+                type="button"
+                onClick={() => {
+                  closeMobile();
+                  openCartDrawer();
+                }}
+                className="flex w-full items-center gap-3 rounded-xl px-4 py-3.5 text-left text-base font-medium text-foreground transition-colors hover:bg-foreground/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset"
+              >
+                <ShoppingCart className="size-5 shrink-0 text-foreground/60" aria-hidden />
+                Сагс
+                {cartCount > 0 && (
+                  <span className="ml-auto rounded-full bg-primary px-2.5 py-0.5 text-sm font-semibold text-white">
+                    {cartCount > 99 ? "99+" : cartCount}
                   </span>
-                  {MEGA_MENU_FEATURES.map((item) => {
-                    const Icon = item.icon;
-                    return (
-                      <Link
-                        key={item.title}
-                        href={item.href}
-                        onClick={closeMobile}
-                        className="flex items-center gap-3 rounded-xl bg-background p-3 shadow-sm transition-colors hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset"
-                      >
-                        <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                          <Icon className="size-4" aria-hidden />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <span className="block text-sm font-semibold text-foreground">{item.title}</span>
-                          <span className="block text-xs text-foreground/60">{item.description}</span>
-                        </div>
-                        <ChevronRight className="size-4 shrink-0 text-foreground/40" aria-hidden />
-                      </Link>
-                    );
-                  })}
-                  <Link
-                    href="/gifts"
-                    onClick={closeMobile}
-                    className="mt-3 flex items-center justify-center gap-2 rounded-3xl bg-primary px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-                  >
-                    Бэлгийн карт сонгох
-                    <ArrowRight className="size-4" aria-hidden />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-          <button
-            type="button"
-            onClick={() => {
-              closeMobile();
-              openCartDrawer();
-            }}
-            className="flex items-center gap-2 rounded-xl px-4 py-3 text-left text-base font-medium text-foreground hover:bg-foreground/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-          >
-            <ShoppingCart className="size-4" />
-            Сагс {cartCount > 0 && `(${cartCount})`}
-          </button>
-          <div className="mt-4 flex flex-col gap-2 border-t border-foreground/10 pt-4">
-            {user ? (
-              <>
-                <Link
-                  href="/profile"
-                  onClick={closeMobile}
-                  className="flex items-center gap-2 rounded-xl px-4 py-3 text-base font-medium text-foreground hover:bg-foreground/5"
-                >
-                  <User className="size-4" /> Профайл
-                </Link>
-                <Link
-                  href="/orders"
-                  onClick={closeMobile}
-                  className="flex items-center gap-2 rounded-xl px-4 py-3 text-base font-medium text-foreground hover:bg-foreground/5"
-                >
-                  <Package className="size-4" /> Захиалгууд
-                </Link>
-                <button
-                  type="button"
-                  onClick={() => {
-                    closeMobile();
-                    logout();
-                  }}
-                  className="flex items-center gap-2 rounded-xl px-4 py-3 text-left text-base font-medium text-red-600 hover:bg-red-500/10"
-                >
-                  <LogOut className="size-4" /> Гарах
-                </button>
-              </>
-            ) : (
+                )}
+              </button>
+            </section>
+
+            {/* Account */}
+            <section className="mt-auto space-y-1 border-t border-foreground/10 pt-4">
+              <h2 className="sr-only">Хэрэглэгч</h2>
+              {user ? (
+                <ul className="space-y-0.5">
+                  <li>
+                    <Link
+                      href="/profile"
+                      onClick={closeMobile}
+                      className="flex items-center gap-3 rounded-xl px-4 py-3.5 text-base font-medium text-foreground transition-colors hover:bg-foreground/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset"
+                    >
+                      <User className="size-5 shrink-0 text-foreground/60" aria-hidden />
+                      Профайл
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/orders"
+                      onClick={closeMobile}
+                      className="flex items-center gap-3 rounded-xl px-4 py-3.5 text-base font-medium text-foreground transition-colors hover:bg-foreground/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset"
+                    >
+                      <Package className="size-5 shrink-0 text-foreground/60" aria-hidden />
+                      Захиалгууд
+                    </Link>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        closeMobile();
+                        logout();
+                      }}
+                      className="flex w-full items-center gap-3 rounded-xl px-4 py-3.5 text-left text-base font-medium text-red-600 transition-colors hover:bg-red-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset"
+                    >
+                      <LogOut className="size-5 shrink-0" aria-hidden />
+                      Гарах
+                    </button>
+                  </li>
+                </ul>
+              ) : (
                 <Button
-                  className="w-full rounded-xl transition-all duration-200 hover:scale-[1.02] hover:shadow-lg"
+                  className="w-full gap-2 rounded-xl py-3.5 text-base font-semibold transition-all hover:scale-[1.01]"
                   style={{ backgroundColor: "#0052FF" }}
                   onClick={() => {
                     closeMobile();
                     openAuthModal();
                   }}
                 >
+                  <User className="size-5 shrink-0" aria-hidden />
                   Нэвтрэх
                 </Button>
-            )}
-          </div>
-        </nav>
+              )}
+            </section>
+          </nav>
+        </div>
       </div>
 
       <AuthModal
