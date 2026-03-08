@@ -5,6 +5,19 @@ import Image from "next/image";
 import { useRef } from "react";
 import type { GiftOccasion } from "@/lib/types";
 
+/** Одоо болж байгаа онцлох баяр — эхэнд өөр стилтэй харуулна */
+const FEATURED_OCCASION: {
+  occasionKey: GiftOccasion;
+  label: string;
+  dateLabel: string;
+  image: string;
+} | null = {
+  occasionKey: "Holiday",
+  label: "Эмэгтэйчүүдийн баяр",
+  dateLabel: "Март 8",
+  image: "https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=400&q=80",
+};
+
 const OCCASIONS: {
   key: GiftOccasion;
   label: string;
@@ -148,7 +161,39 @@ export function OccasionsSection() {
           className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-1 scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
           role="list"
         >
-          {OCCASIONS.map(({ key, label, image }) => (
+          {FEATURED_OCCASION && (
+            <Link
+              key={`featured-${FEATURED_OCCASION.occasionKey}`}
+              href={`/gifts?occasion=${encodeURIComponent(FEATURED_OCCASION.occasionKey)}`}
+              className="group relative flex shrink-0 snap-center flex-col rounded-2xl border-2 border-primary/40 bg-background shadow-md transition-all duration-200 hover:border-primary hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              role="listitem"
+              style={{ width: "140px" }}
+            >
+              <span className="absolute left-2 top-2 z-10 rounded-full bg-primary px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white shadow-sm">
+                Онцлох
+              </span>
+              <div className="relative aspect-square w-full overflow-hidden rounded-t-xl bg-foreground/5">
+                <Image
+                  src={FEATURED_OCCASION.image}
+                  alt=""
+                  fill
+                  sizes="140px"
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <span className="rounded-b-xl px-2.5 pt-1.5 pb-2 text-center">
+                <span className="block text-xs font-medium text-primary">
+                  {FEATURED_OCCASION.dateLabel}
+                </span>
+                <span className="block text-sm font-medium text-foreground">
+                  {FEATURED_OCCASION.label}
+                </span>
+              </span>
+            </Link>
+          )}
+          {OCCASIONS.filter(
+            (o) => !FEATURED_OCCASION || o.key !== FEATURED_OCCASION.occasionKey
+          ).map(({ key, label, image }) => (
             <Link
               key={key}
               href={`/gifts?occasion=${encodeURIComponent(key)}`}
