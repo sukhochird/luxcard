@@ -16,6 +16,7 @@ type DeliveryType = "self" | "gift";
 type SendOption = "now" | "scheduled";
 
 const PHONE_REGEX = /^[0-9]{8}$/;
+const DELIVERY_FEE = 10_000;
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -28,6 +29,9 @@ export default function CheckoutPage() {
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [recipientName, setRecipientName] = useState("");
   const [recipientPhone, setRecipientPhone] = useState("");
+  const [giftDeliveryAddress, setGiftDeliveryAddress] = useState("");
+  const [giftMessage, setGiftMessage] = useState("");
+  const [sendAnonymously, setSendAnonymously] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -35,7 +39,7 @@ export default function CheckoutPage() {
   const userPhoneError =
     userPhoneTouched && userPhone.length > 0 && !userPhoneValid;
 
-  const { subtotal } = useMemo(() => {
+  const { subtotal, deliveryFee, total } = useMemo(() => {
     let sub = 0;
     for (const item of items) {
       const packMod = getPackagingModifier(item.packaging as PackagingId);
@@ -44,8 +48,12 @@ export default function CheckoutPage() {
       );
       sub += (unit + packMod) * item.quantity;
     }
-    return { subtotal: sub };
-  }, [items]);
+    const needsDelivery =
+      deliveryType === "self" ||
+      (deliveryType === "gift" && giftDeliveryAddress.trim().length > 0);
+    const fee = needsDelivery ? DELIVERY_FEE : 0;
+    return { subtotal: sub, deliveryFee: fee, total: sub + fee };
+  }, [items, deliveryType, giftDeliveryAddress]);
 
   useEffect(() => {
     if (items.length === 0) {
@@ -126,10 +134,16 @@ export default function CheckoutPage() {
           );
         })}
       </ul>
-      <div className="mt-4 border-t border-foreground/10 pt-4">
+      <div className="mt-4 border-t border-foreground/10 pt-4 space-y-2">
+        {deliveryFee > 0 && (
+          <p className="flex justify-between text-sm text-foreground">
+            <span>Хүргэлт</span>
+            <span>{deliveryFee.toLocaleString()}₮</span>
+          </p>
+        )}
         <p className="flex justify-between text-lg font-semibold text-foreground">
           <span>Нийт</span>
-          <span>{subtotal.toLocaleString()}₮</span>
+          <span>{total.toLocaleString()}₮</span>
         </p>
       </div>
     </div>
@@ -158,6 +172,9 @@ export default function CheckoutPage() {
               <Send className="size-4 text-primary" aria-hidden />
               Хүргэлт
             </h2>
+            <p className="mt-1 text-sm text-foreground/70">
+              Хүргэлтийн төлбөр {DELIVERY_FEE.toLocaleString()}₮. 24 цагийн дотор хүргэгдэнэ. Яаралтай бол UB Cab-аар авч болно.
+            </p>
             <div className="mt-3 flex gap-4">
               <label className="flex cursor-pointer items-center gap-2">
                 <input
@@ -228,6 +245,19 @@ export default function CheckoutPage() {
                   </div>
                 </div>
                 <div className="mt-4">
+                  <label htmlFor="giftDeliveryAddress" className="block text-sm font-medium text-foreground">
+                    Хүргэх хаяг <span className="text-foreground/60 font-normal">(заавал биш)</span>
+                  </label>
+                  <Input
+                    id="giftDeliveryAddress"
+                    type="text"
+                    value={giftDeliveryAddress}
+                    onChange={(e) => setGiftDeliveryAddress(e.target.value)}
+                    placeholder="Гудамж, дүүрэг, хот"
+                    className="mt-2"
+                  />
+                </div>
+                <div className="mt-4">
                   <p className="text-sm font-medium text-foreground">Илгээх цаг</p>
                   <div className="mt-2 flex flex-wrap gap-4">
                     <label className="flex cursor-pointer items-center gap-2">
@@ -261,6 +291,35 @@ export default function CheckoutPage() {
                       className="mt-2 w-full max-w-xs"
                     />
                   )}
+                </div>
+                <div className="mt-4">
+                  <label htmlFor="giftMessage" className="block text-sm font-medium text-foreground">
+                    Хүлээн авагчид зориулсан захиа <span className="text-foreground/60 font-normal">(заавал биш)</span>
+                  </label>
+                  <textarea
+                    id="giftMessage"
+                    rows={3}
+                    value={giftMessage}
+                    onChange={(e) => setGiftMessage(e.target.value)}
+                    placeholder="Тухайн хүндээ хэлмээр зүйлээ энд бичнэ үү"
+                    className={cn(
+                      "mt-2 w-full rounded-2xl border border-foreground/20 bg-background px-4 py-3 text-foreground shadow-sm transition-colors",
+                      "placeholder:text-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                    )}
+                  />
+                </div>
+                <div className="mt-4">
+                  <label className="flex cursor-pointer items-start gap-3">
+                    <input
+                      type="checkbox"
+                      checked={sendAnonymously}
+                      onChange={(e) => setSendAnonymously(e.target.checked)}
+                      className="mt-0.5 size-4 shrink-0 rounded border-foreground/30 text-primary focus:ring-primary"
+                    />
+                    <span className="text-sm text-foreground">
+                      Нэрээ болон мэдээллээ нууцалж илгээх — хүлээн авагч таны нэр, утас харахгүй
+                    </span>
+                  </label>
                 </div>
               </>
             )}
@@ -305,7 +364,7 @@ export default function CheckoutPage() {
               size="lg"
               className="w-full rounded-2xl bg-primary hover:bg-primary/90"
             >
-              {submitting ? "Боловсруулж байна…" : `${subtotal.toLocaleString()}₮ төлөх`}
+              {submitting ? "Боловсруулж байна…" : `${total.toLocaleString()}₮ төлөх`}
             </Button>
             <Button type="button" variant="outline" size="lg" className="w-full rounded-2xl" asChild>
               <Link href="/cart">Сагс руу буцах</Link>
@@ -323,7 +382,7 @@ export default function CheckoutPage() {
                 size="lg"
                 className="w-full rounded-2xl bg-primary hover:bg-primary/90"
               >
-                {submitting ? "Боловсруулж байна…" : `${subtotal.toLocaleString()}₮ төлөх`}
+                {submitting ? "Боловсруулж байна…" : `${total.toLocaleString()}₮ төлөх`}
               </Button>
               <Button type="button" variant="outline" size="lg" className="w-full rounded-2xl" asChild>
                 <Link href="/cart">Сагс руу буцах</Link>
