@@ -7,9 +7,8 @@ import { X } from "lucide-react";
 import { useCart } from "@/store/cart";
 import { CartItemRow } from "@/components/cart/CartItemRow";
 import { Button } from "@/components/ui/button";
-import { getPackagingModifier } from "@/app/(shop)/gifts/[slug]/PackagingSelection";
+import { getAddonsModifier } from "@/app/(shop)/gifts/[slug]/PackagingSelection";
 import { DELIVERY_FEE } from "@/lib/constants";
-import type { PackagingId } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 export function CartDrawer({
@@ -30,7 +29,7 @@ export function CartDrawer({
     let sub = 0;
     let n = 0;
     for (const item of items) {
-      const packMod = getPackagingModifier(item.packaging as PackagingId);
+      const packMod = getAddonsModifier(item.addons);
       const unit = Math.round(
         item.amount * (1 - (item.discountPercent ?? 0) / 100)
       );
@@ -105,7 +104,7 @@ export function CartDrawer({
                 <ul className="space-y-3">
                   {items.map((item) => (
                     <li
-                      key={`${item.slug}-${item.amount}-${item.packaging}`}
+                      key={`${item.slug}-${item.amount}-${[...item.addons].sort().join(",")}`}
                     >
                       <CartItemRow
                         item={item}
@@ -114,12 +113,12 @@ export function CartDrawer({
                           updateQuantity(
                             item.slug,
                             item.amount,
-                            item.packaging,
+                            item.addons,
                             q
                           )
                         }
                         onRemove={() =>
-                          removeItem(item.slug, item.amount, item.packaging)
+                          removeItem(item.slug, item.amount, item.addons)
                         }
                       />
                     </li>

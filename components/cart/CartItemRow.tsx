@@ -2,8 +2,7 @@
 
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { getPackagingModifier } from "@/app/(shop)/gifts/[slug]/PackagingSelection";
-import type { PackagingId } from "@/lib/types";
+import { getAddonsModifier } from "@/app/(shop)/gifts/[slug]/PackagingSelection";
 import type { CartItem } from "@/lib/types";
 import { Trash2 } from "lucide-react";
 
@@ -18,7 +17,7 @@ export function CartItemRow({
   onRemove: () => void;
   compact?: boolean;
 }) {
-  const packMod = getPackagingModifier(item.packaging as PackagingId);
+  const packMod = getAddonsModifier(item.addons);
   const unitPrice = Math.round(
     item.amount * (1 - (item.discountPercent ?? 0) / 100)
   );

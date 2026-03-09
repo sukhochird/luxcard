@@ -8,8 +8,7 @@ import { ArrowLeft, User, Gift, Clock, CreditCard, ShoppingBag, Calendar } from 
 import { useCart } from "@/store/cart";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { getPackagingModifier } from "@/app/(shop)/gifts/[slug]/PackagingSelection";
-import type { PackagingId } from "@/lib/types";
+import { getAddonsModifier } from "@/app/(shop)/gifts/[slug]/PackagingSelection";
 import { DELIVERY_FEE } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
@@ -42,7 +41,7 @@ export default function CheckoutPage() {
   const { subtotal, deliveryFee, total } = useMemo(() => {
     let sub = 0;
     for (const item of items) {
-      const packMod = getPackagingModifier(item.packaging as PackagingId);
+      const packMod = getAddonsModifier(item.addons);
       const unit = Math.round(
         item.amount * (1 - (item.discountPercent ?? 0) / 100)
       );
@@ -111,14 +110,14 @@ export default function CheckoutPage() {
       <div className="p-6">
         <ul className="space-y-4">
           {items.map((item) => {
-            const packMod = getPackagingModifier(item.packaging as PackagingId);
+            const packMod = getAddonsModifier(item.addons);
             const unit = Math.round(
               item.amount * (1 - (item.discountPercent ?? 0) / 100)
             );
             const lineTotal = (unit + packMod) * item.quantity;
             return (
               <li
-                key={`${item.slug}-${item.amount}-${item.packaging}`}
+                key={`${item.slug}-${item.amount}-${[...item.addons].sort().join(",")}`}
                 className="flex gap-4"
               >
                 <div className="relative h-16 w-24 shrink-0 overflow-hidden rounded-xl bg-foreground/5">

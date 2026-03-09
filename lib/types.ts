@@ -59,12 +59,26 @@ export interface Gift {
   termsOfUse?: string;
 }
 
-export type PackagingId = "standard" | "premium" | "giftbag";
+export type PackagingId =
+  | "standard"
+  | "premium"
+  | "giftbag"
+  | "box"
+  | "flowers"
+  | "chocolate"
+  | "candle"
+  | "teddy"
+  | "card_holder"
+  | "ribbon"
+  | "basket"
+  | "wine"
+  | "balloon";
 
 export interface CartItem {
   slug: string;
   amount: number;
-  packaging: PackagingId;
+  /** Нэг буюу олон бэлэглэлийн сонголт */
+  addons: PackagingId[];
   quantity: number;
   title: string;
   merchant: string;

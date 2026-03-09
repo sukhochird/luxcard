@@ -4,8 +4,7 @@ import Link from "next/link";
 import { useCart } from "@/store/cart";
 import { Button } from "@/components/ui/button";
 import { CartItemRow } from "@/components/cart/CartItemRow";
-import { getPackagingModifier } from "@/app/(shop)/gifts/[slug]/PackagingSelection";
-import type { PackagingId } from "@/lib/types";
+import { getAddonsModifier } from "@/app/(shop)/gifts/[slug]/PackagingSelection";
 import { useMemo } from "react";
 
 export default function CartPage() {
@@ -15,7 +14,7 @@ export default function CartPage() {
     let sub = 0;
     let n = 0;
     for (const item of items) {
-      const packMod = getPackagingModifier(item.packaging as PackagingId);
+      const packMod = getAddonsModifier(item.addons);
       const unit = Math.round(
         item.amount * (1 - (item.discountPercent ?? 0) / 100)
       );
@@ -45,14 +44,14 @@ export default function CartPage() {
       </p>
       <ul className="mt-8 space-y-4">
         {items.map((item) => (
-          <li key={`${item.slug}-${item.amount}-${item.packaging}`}>
+          <li key={`${item.slug}-${item.amount}-${[...item.addons].sort().join(",")}`}>
             <CartItemRow
               item={item}
               onUpdateQty={(q) =>
-                updateQuantity(item.slug, item.amount, item.packaging, q)
+                updateQuantity(item.slug, item.amount, item.addons, q)
               }
               onRemove={() =>
-                removeItem(item.slug, item.amount, item.packaging)
+                removeItem(item.slug, item.amount, item.addons)
               }
             />
           </li>

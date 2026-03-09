@@ -8,7 +8,7 @@ import type { Gift, GiftWithMerchant, PackagingId } from "@/lib/types";
 import { useCart } from "@/store/cart";
 import {
   PackagingSelection,
-  getPackagingModifier,
+  getAddonsModifier,
 } from "./PackagingSelection";
 import { PriceSelector } from "./PriceSelector";
 import { TrustIndicators } from "./TrustIndicators";
@@ -64,7 +64,7 @@ function GiftDetailPanelComponent({ card }: GiftDetailPanelProps) {
   const merchant = card.merchant ?? undefined;
   const router = useRouter();
   const { addItem } = useCart();
-  const [packaging, setPackaging] = useState<PackagingId>("standard");
+  const [addons, setAddons] = useState<PackagingId[]>([]);
   const [amount, setAmount] = useState(() => Math.min(...gift.priceOptions));
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
@@ -82,7 +82,7 @@ function GiftDetailPanelComponent({ card }: GiftDetailPanelProps) {
     return () => window.removeEventListener("keydown", onKey);
   }, [merchantModalOpen]);
 
-  const modifier = useMemo(() => getPackagingModifier(packaging), [packaging]);
+  const modifier = useMemo(() => getAddonsModifier(addons), [addons]);
   const discount = gift.discountPercent ?? 0;
   const unitPriceBeforeDiscount = amount;
   const unitPriceAfterDiscount = Math.round(
@@ -96,7 +96,7 @@ function GiftDetailPanelComponent({ card }: GiftDetailPanelProps) {
     addItem({
       slug: gift.slug,
       amount,
-      packaging,
+      addons,
       quantity,
       title: gift.title,
       merchant: gift.merchant,
@@ -114,7 +114,7 @@ function GiftDetailPanelComponent({ card }: GiftDetailPanelProps) {
     addItem({
       slug: gift.slug,
       amount,
-      packaging,
+      addons,
       quantity,
       title: gift.title,
       merchant: gift.merchant,
@@ -246,7 +246,7 @@ function GiftDetailPanelComponent({ card }: GiftDetailPanelProps) {
           />
         </div>
         <div className="mt-6">
-          <PackagingSelection value={packaging} onChange={setPackaging} />
+          <PackagingSelection value={addons} onChange={setAddons} />
         </div>
         <div className="mt-6">
           <label
