@@ -156,16 +156,16 @@ function ImageCarouselComponent({ images, alt }: ImageCarouselProps) {
             setFullscreenOpen(true);
           }}
           aria-label="Дэлгэц дүүргэж үзэх"
-          className="absolute right-3 top-3 z-10 flex size-10 items-center justify-center rounded-full bg-foreground/70 text-white backdrop-blur-sm transition-colors hover:bg-foreground/85 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 md:right-4 md:top-4"
+          className="absolute right-3 top-3 z-[1] flex size-10 items-center justify-center rounded-full bg-foreground/70 text-white backdrop-blur-sm transition-colors hover:bg-foreground/85 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 md:right-4 md:top-4"
         >
           <Maximize2 className="size-5" />
         </button>
         {hasMultiple && (
           <>
-            <div
-              className="absolute right-3 top-14 rounded-full bg-foreground/70 px-2.5 py-1 text-xs font-medium text-white backdrop-blur-sm"
-              aria-hidden
-            >
+<div
+            className="absolute right-3 top-14 z-[1] rounded-full bg-foreground/70 px-2.5 py-1 text-xs font-medium text-white backdrop-blur-sm"
+            aria-hidden
+          >
               {selectedIndex + 1} / {safeImages.length}
             </div>
             <button
@@ -173,7 +173,7 @@ function ImageCarouselComponent({ images, alt }: ImageCarouselProps) {
               onClick={scrollPrev}
               aria-label="Өмнөх зураг"
               className={cn(
-                "absolute left-2 top-1/2 z-10 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-foreground shadow-md backdrop-blur-sm transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+                "absolute left-2 top-1/2 z-[1] flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-foreground shadow-md backdrop-blur-sm transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
                 "hover:bg-white hover:shadow-lg active:scale-95 md:left-3",
                 "md:opacity-0 md:group-hover:opacity-100",
                 !canScrollPrev && "pointer-events-none opacity-40"
@@ -186,7 +186,7 @@ function ImageCarouselComponent({ images, alt }: ImageCarouselProps) {
               onClick={scrollNext}
               aria-label="Дараагийн зураг"
               className={cn(
-                "absolute right-2 top-1/2 z-10 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-foreground shadow-md backdrop-blur-sm transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+                "absolute right-2 top-1/2 z-[1] flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-foreground shadow-md backdrop-blur-sm transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
                 "hover:bg-white hover:shadow-lg active:scale-95 md:right-3",
                 "md:opacity-0 md:group-hover:opacity-100",
                 !canScrollNext && "pointer-events-none opacity-40"
