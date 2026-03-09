@@ -139,7 +139,7 @@ export default async function GiftDetailPage({ params }: PageProps) {
               href="/gifts"
               className="rounded font-medium text-primary transition-colors hover:text-primary/90 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
-              Бэлгүүд
+              Бэлгийн картууд
             </Link>
           </li>
           <li aria-hidden>/</li>

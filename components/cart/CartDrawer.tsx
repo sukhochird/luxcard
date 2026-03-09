@@ -8,6 +8,7 @@ import { useCart } from "@/store/cart";
 import { CartItemRow } from "@/components/cart/CartItemRow";
 import { Button } from "@/components/ui/button";
 import { getPackagingModifier } from "@/app/(shop)/gifts/[slug]/PackagingSelection";
+import { DELIVERY_FEE } from "@/lib/constants";
 import type { PackagingId } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -38,6 +39,8 @@ export function CartDrawer({
     }
     return { subtotal: sub, totalItems: n };
   }, [items]);
+
+  const totalWithDelivery = subtotal + DELIVERY_FEE;
 
   useEffect(() => {
     if (open) document.body.style.overflow = "hidden";
@@ -124,10 +127,20 @@ export function CartDrawer({
                 </ul>
               </div>
               <div className="shrink-0 border-t border-foreground/10 bg-background p-4">
-                <div className="mb-3 flex items-center justify-between">
+                <div className="mb-2 space-y-1.5 text-sm">
+                  <div className="flex items-center justify-between text-foreground/80">
+                    <span>Дэд дүн</span>
+                    <span className="tabular-nums">{subtotal.toLocaleString()}₮</span>
+                  </div>
+                  <div className="flex items-center justify-between text-foreground/80">
+                    <span>Хүргэлтийн төлбөр</span>
+                    <span className="tabular-nums">{DELIVERY_FEE.toLocaleString()}₮</span>
+                  </div>
+                </div>
+                <div className="mb-3 flex items-center justify-between border-t border-foreground/10 pt-3">
                   <span className="font-semibold text-foreground">Нийт</span>
-                  <span className="text-xl font-bold text-foreground">
-                    {subtotal.toLocaleString()}₮
+                  <span className="text-xl font-bold text-foreground tabular-nums">
+                    {totalWithDelivery.toLocaleString()}₮
                   </span>
                 </div>
                 <div className="flex gap-2">

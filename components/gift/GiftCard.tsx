@@ -57,7 +57,7 @@ function GiftCardComponent({ item, className, priority }: GiftCardProps) {
         {/* Badge - top left */}
         {item.featured && (
           <div className="absolute left-3 top-3">
-            <span className="inline-flex items-center rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-foreground shadow-sm">
+            <span className="inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-1.5 text-xs font-semibold text-neutral-900 shadow-md dark:border-white/20 dark:bg-neutral-800 dark:text-white [text-shadow:0_0_1px_rgba(0,0,0,0.3)] dark:[text-shadow:0_0_1px_rgba(255,255,255,0.2)]">
               Онцгой хамтрагч
             </span>
           </div>

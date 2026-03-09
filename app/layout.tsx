@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Toaster } from "sonner";
 import { AuthHydration } from "@/components/AuthHydration";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
@@ -63,6 +64,7 @@ export default function RootLayout({
         <ThemeProvider>
           <AuthHydration />
           {children}
+          <Toaster position="top-center" richColors closeButton />
         </ThemeProvider>
       </body>
     </html>

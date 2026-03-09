@@ -15,8 +15,8 @@ function PriceSelectorComponent({
   onChange,
 }: PriceSelectorProps) {
   return (
-    <fieldset className="space-y-3">
-      <legend className="text-sm font-semibold text-foreground">
+    <fieldset className="space-y-3 border-0 p-0 m-0 min-w-0">
+      <legend className="mb-0 block px-0 text-sm font-semibold text-foreground">
         Gift amount
       </legend>
       <div
@@ -28,10 +28,10 @@ function PriceSelectorComponent({
           <label
             key={amount}
             className={cn(
-              "cursor-pointer rounded-xl border-2 px-4 py-2.5 text-sm font-medium transition-all duration-150 focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2",
+              "cursor-pointer rounded-xl border-2 px-4 py-2.5 text-sm font-medium transition-all duration-150",
               value === amount
-                ? "border-primary bg-primary/10 text-foreground"
-                : "border-foreground/20 bg-background text-foreground hover:border-foreground/40"
+                ? "border-primary bg-primary/10 text-foreground focus-within:ring-0"
+                : "border-foreground/20 bg-background text-foreground hover:border-foreground/40 focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2"
             )}
           >
             <input

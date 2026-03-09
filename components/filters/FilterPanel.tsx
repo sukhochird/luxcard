@@ -18,11 +18,9 @@ import {
 } from "@/components/ui/select";
 import { Filter } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import {
-  CATEGORIES,
-  OCCASIONS,
-} from "@/lib/data";
+import { useFilterOptions } from "@/lib/use-filter-options";
 import type { GiftFilterState } from "@/lib/filterGifts";
+import type { GiftCategory, GiftOccasion } from "@/lib/types";
 import { defaultGiftFilterState, PRICE_MIN, PRICE_MAX, PRICE_STEP } from "@/lib/filterGifts";
 import { cn } from "@/lib/utils";
 
@@ -39,6 +37,7 @@ const LOCATION_OPTIONS: { value: GiftFilterState["location"]; label: string }[] 
 ];
 
 export function FilterPanel({ filters, onFiltersChange }: FilterPanelProps) {
+  const { categories: categoryOptions, occasions: occasionOptions } = useFilterOptions();
   const [open, setOpen] = useState(false);
   const [localCategories, setLocalCategories] = useState(filters.categories);
   const [localOccasions, setLocalOccasions] = useState(filters.occasions);
@@ -73,13 +72,13 @@ export function FilterPanel({ filters, onFiltersChange }: FilterPanelProps) {
     setOpen(false);
   };
 
-  const toggleCategory = (cat: (typeof CATEGORIES)[number]) => {
+  const toggleCategory = (cat: GiftCategory) => {
     setLocalCategories((prev) =>
       prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
     );
   };
 
-  const toggleOccasion = (occ: (typeof OCCASIONS)[number]) => {
+  const toggleOccasion = (occ: GiftOccasion) => {
     setLocalOccasions((prev) =>
       prev.includes(occ) ? prev.filter((o) => o !== occ) : [...prev, occ]
     );
@@ -111,7 +110,7 @@ export function FilterPanel({ filters, onFiltersChange }: FilterPanelProps) {
               Category
             </label>
             <div className="grid grid-cols-2 gap-2">
-              {CATEGORIES.map((cat) => (
+              {categoryOptions.map((cat) => (
                 <label
                   key={cat}
                   className={cn(
@@ -133,19 +132,19 @@ export function FilterPanel({ filters, onFiltersChange }: FilterPanelProps) {
               Occasion
             </label>
             <div className="grid grid-cols-2 gap-2">
-              {OCCASIONS.map((occ) => (
+              {occasionOptions.map((occ) => (
                 <label
-                  key={occ}
+                  key={occ.key}
                   className={cn(
                     "flex cursor-pointer items-center gap-2 rounded-xl py-2 pr-2 text-sm transition-colors hover:bg-foreground/5",
-                    localOccasions.includes(occ) && "bg-foreground/5"
+                    localOccasions.includes(occ.key) && "bg-foreground/5"
                   )}
                 >
                   <Checkbox
-                    checked={localOccasions.includes(occ)}
-                    onCheckedChange={() => toggleOccasion(occ)}
+                    checked={localOccasions.includes(occ.key)}
+                    onCheckedChange={() => toggleOccasion(occ.key)}
                   />
-                  <span className="text-foreground">{occ}</span>
+                  <span className="text-foreground">{occ.label}</span>
                 </label>
               ))}
             </div>

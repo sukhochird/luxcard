@@ -3,105 +3,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useRef } from "react";
-import type { GiftOccasion } from "@/lib/types";
-
-/** Одоо болж байгаа онцлох баяр — эхэнд өөр стилтэй харуулна */
-const FEATURED_OCCASION: {
-  occasionKey: GiftOccasion;
-  label: string;
-  dateLabel: string;
-  image: string;
-} | null = {
-  occasionKey: "Holiday",
-  label: "Эмэгтэйчүүдийн баяр",
-  dateLabel: "Март 8",
-  image: "https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=400&q=80",
-};
-
-const OCCASIONS: {
-  key: GiftOccasion;
-  label: string;
-  image: string;
-}[] = [
-  {
-    key: "Birthday",
-    label: "Төрсөн өдөр",
-    image: "https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400&q=80",
-  },
-  {
-    key: "Wedding",
-    label: "Гэрлэлт",
-    image: "https://images.unsplash.com/photo-1519741497674-611481863552?w=400&q=80",
-  },
-  {
-    key: "New Year",
-    label: "Шинэ жил",
-    image: "https://images.unsplash.com/photo-1467810563316-b5476525c0f9?w=400&q=80",
-  },
-  {
-    key: "Lunar New Year",
-    label: "Сар шинийн баяр",
-    image: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=400&q=80",
-  },
-  {
-    key: "Valentine's",
-    label: "Валентины өдөр",
-    image: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=400&q=80",
-  },
-  {
-    key: "Mother's Day",
-    label: "Ээжийн өдөр",
-    image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&q=80",
-  },
-  {
-    key: "Father's Day",
-    label: "Аавын өдөр",
-    image: "https://images.unsplash.com/photo-1610088441520-4352457e7095?w=400&q=80",
-  },
-  {
-    key: "Holiday",
-    label: "Амралт",
-    image: "https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=400&q=80",
-  },
-  {
-    key: "Corporate",
-    label: "Корпоратив",
-    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&q=80",
-  },
-  {
-    key: "Graduation",
-    label: "Төгсөлт",
-    image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400&q=80",
-  },
-  {
-    key: "Housewarming",
-    label: "Гэр шинэчлэлт",
-    image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&q=80",
-  },
-  {
-    key: "Baby Shower",
-    label: "Хүүхэд төрөх баяр",
-    image: "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=400&q=80",
-  },
-  {
-    key: "Thank You",
-    label: "Талархал",
-    image: "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?w=400&q=80",
-  },
-  {
-    key: "Get Well Soon",
-    label: "Эрүүл мэнд",
-    image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=400&q=80",
-  },
-  {
-    key: "Congratulations",
-    label: "Баяр хүргэх",
-    image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400&q=80",
-  },
-];
+import { useOccasions } from "@/lib/use-filter-options";
 
 export function OccasionsSection() {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const { occasions } = useOccasions();
+  const featuredOccasion = occasions.find((o) => o.featured);
+  const restOccasions = occasions.filter((o) => !o.featured);
 
   const scroll = (direction: "left" | "right") => {
     const el = scrollRef.current;
@@ -161,10 +69,10 @@ export function OccasionsSection() {
           className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-1 scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
           role="list"
         >
-          {FEATURED_OCCASION && (
+          {featuredOccasion && (
             <Link
-              key={`featured-${FEATURED_OCCASION.occasionKey}`}
-              href={`/gifts?occasion=${encodeURIComponent(FEATURED_OCCASION.occasionKey)}`}
+              key={`featured-${featuredOccasion.key}`}
+              href={`/gifts?occasion=${encodeURIComponent(featuredOccasion.key)}`}
               className="group relative flex shrink-0 snap-center flex-col rounded-2xl border-2 border-primary/40 bg-background shadow-md transition-all duration-200 hover:border-primary hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               role="listitem"
               style={{ width: "140px" }}
@@ -174,7 +82,7 @@ export function OccasionsSection() {
               </span>
               <div className="relative aspect-square w-full overflow-hidden rounded-t-xl bg-foreground/5">
                 <Image
-                  src={FEATURED_OCCASION.image}
+                  src={featuredOccasion.image}
                   alt=""
                   fill
                   sizes="140px"
@@ -182,28 +90,28 @@ export function OccasionsSection() {
                 />
               </div>
               <span className="rounded-b-xl px-2.5 pt-1.5 pb-2 text-center">
-                <span className="block text-xs font-medium text-primary">
-                  {FEATURED_OCCASION.dateLabel}
-                </span>
+                {featuredOccasion.dateLabel && (
+                  <span className="block text-xs font-medium text-primary">
+                    {featuredOccasion.dateLabel}
+                  </span>
+                )}
                 <span className="block text-sm font-medium text-foreground">
-                  {FEATURED_OCCASION.label}
+                  {featuredOccasion.label}
                 </span>
               </span>
             </Link>
           )}
-          {OCCASIONS.filter(
-            (o) => !FEATURED_OCCASION || o.key !== FEATURED_OCCASION.occasionKey
-          ).map(({ key, label, image }) => (
+          {restOccasions.map((occ) => (
             <Link
-              key={key}
-              href={`/gifts?occasion=${encodeURIComponent(key)}`}
+              key={occ.key}
+              href={`/gifts?occasion=${encodeURIComponent(occ.key)}`}
               className="group flex shrink-0 snap-center flex-col rounded-2xl border-2 border-transparent bg-background shadow-sm transition-all duration-200 hover:border-primary/40 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               role="listitem"
               style={{ width: "140px" }}
             >
               <div className="relative aspect-square w-full overflow-hidden rounded-t-xl bg-foreground/5">
                 <Image
-                  src={image}
+                  src={occ.image}
                   alt=""
                   fill
                   sizes="140px"
@@ -211,7 +119,7 @@ export function OccasionsSection() {
                 />
               </div>
               <span className="rounded-b-xl px-2.5 py-2 text-center text-sm font-medium text-foreground">
-                {label}
+                {occ.label}
               </span>
             </Link>
           ))}

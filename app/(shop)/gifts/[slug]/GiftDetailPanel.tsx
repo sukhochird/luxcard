@@ -14,7 +14,8 @@ import { PriceSelector } from "./PriceSelector";
 import { TrustIndicators } from "./TrustIndicators";
 import { MerchantInfo } from "./MerchantInfo";
 import { cn } from "@/lib/utils";
-import { X, Share2, Heart, ShoppingCart } from "lucide-react";
+import { toast } from "sonner";
+import { X, Share2, Heart, ShoppingCart, CreditCard } from "lucide-react";
 
 const DESCRIPTION_TRUNCATE = 180;
 
@@ -103,7 +104,10 @@ function GiftDetailPanelComponent({ card }: GiftDetailPanelProps) {
       discountPercent: gift.discountPercent,
     });
     setAdded(true);
-    setTimeout(() => setAdded(false), 2000);
+    toast.success("Сагсанд нэмэгдлээ", {
+      description: `${gift.title} · ${quantity} ширхэг`,
+    });
+    setTimeout(() => setAdded(false), 2800);
   };
 
   const handleBuyNow = () => {
@@ -147,12 +151,16 @@ function GiftDetailPanelComponent({ card }: GiftDetailPanelProps) {
     <>
       <div className="flex flex-col rounded-2xl border border-foreground/10 bg-background p-6 shadow-sm transition-shadow duration-200 hover:shadow-md sm:p-8 lg:sticky lg:top-24">
         <div className="flex flex-wrap gap-2">
-          <Badge variant="secondary">{gift.category}</Badge>
+          <Badge className="border-primary bg-primary/10 text-primary">
+            {gift.category}
+          </Badge>
           {gift.featured && (
-            <Badge className="bg-primary text-white">Онцлох</Badge>
+            <Badge variant="outline" className="text-foreground/60">
+              Онцлох
+            </Badge>
           )}
           {gift.occasion.map((occ) => (
-            <Badge key={occ} variant="outline">
+            <Badge key={occ} variant="outline" className="text-foreground/60">
               {occ}
             </Badge>
           ))}
@@ -283,24 +291,26 @@ function GiftDetailPanelComponent({ card }: GiftDetailPanelProps) {
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <Button
             size="lg"
-            className="rounded-2xl bg-primary shadow-md transition-all duration-200 hover:bg-primary/90 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            className="inline-flex items-center gap-2 rounded-2xl bg-primary shadow-md transition-all duration-200 hover:bg-primary/90 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             style={{ backgroundColor: "#0052FF" }}
             onClick={handleBuyNow}
-            aria-label="Одоо худалдаж авах"
+            aria-label="Шууд авах"
           >
-            Одоо худалдаж авах — {total.toLocaleString()}₮
+            <CreditCard className="size-5 shrink-0" aria-hidden />
+            Шууд авах — {total.toLocaleString()}₮
           </Button>
           <Button
             type="button"
             variant="secondary"
             size="lg"
             className={cn(
-              "rounded-2xl transition-all duration-200",
+              "inline-flex items-center gap-2 rounded-2xl transition-all duration-200",
               added && "bg-primary/10 text-primary"
             )}
             onClick={handleAddToCart}
             aria-label="Сагсанд нэмэх"
           >
+            <ShoppingCart className="size-5 shrink-0" aria-hidden />
             {added ? "Нэмэгдсэн" : "Сагсанд нэмэх"}
           </Button>
         </div>
@@ -318,10 +328,11 @@ function GiftDetailPanelComponent({ card }: GiftDetailPanelProps) {
         </div>
         <Button
           size="lg"
-          className="shrink-0 rounded-2xl bg-primary px-5 font-semibold focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+          className="inline-flex shrink-0 items-center gap-2 rounded-2xl bg-primary px-5 font-semibold focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           style={{ backgroundColor: "#0052FF" }}
           onClick={handleBuyNow}
         >
+          <CreditCard className="size-5 shrink-0" aria-hidden />
           Шууд авах
         </Button>
         <Button

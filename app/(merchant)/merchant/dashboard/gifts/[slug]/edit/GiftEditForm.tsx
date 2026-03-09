@@ -16,38 +16,10 @@ import {
 } from "@/components/ui/select";
 import type { Gift, GiftCategory, GiftLocation, GiftOccasion } from "@/lib/types";
 import { apiPatch } from "@/lib/api/client";
+import { useFilterOptions } from "@/lib/use-filter-options";
 import { cn } from "@/lib/utils";
 
-const CATEGORIES: GiftCategory[] = [
-  "Restaurant",
-  "Coffee Shop",
-  "Beauty & Spa",
-  "Fitness",
-  "Entertainment",
-  "Hotel",
-  "Travel",
-  "Retail",
-];
-
 const LOCATIONS: GiftLocation[] = ["Ulaanbaatar", "Darkhan", "Erdenet"];
-
-const OCCASIONS: GiftOccasion[] = [
-  "Birthday",
-  "Wedding",
-  "Holiday",
-  "New Year",
-  "Valentine's",
-  "Corporate",
-  "Graduation",
-  "Lunar New Year",
-  "Mother's Day",
-  "Father's Day",
-  "Housewarming",
-  "Baby Shower",
-  "Thank You",
-  "Get Well Soon",
-  "Congratulations",
-];
 
 interface GiftEditFormProps {
   slug: string;
@@ -56,6 +28,7 @@ interface GiftEditFormProps {
 
 export function GiftEditForm({ slug, gift }: GiftEditFormProps) {
   const router = useRouter();
+  const { categories: categoryOptions, occasions: occasionOptions } = useFilterOptions();
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -164,7 +137,7 @@ export function GiftEditForm({ slug, gift }: GiftEditFormProps) {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              {CATEGORIES.map((c) => (
+              {categoryOptions.map((c) => (
                 <SelectItem key={c} value={c}>
                   {c}
                 </SelectItem>
@@ -257,18 +230,18 @@ export function GiftEditForm({ slug, gift }: GiftEditFormProps) {
             Тохирох үзэгдэл
           </label>
           <div className="flex flex-wrap gap-2">
-            {OCCASIONS.map((occ) => (
+            {occasionOptions.map((occ) => (
               <label
-                key={occ}
+                key={occ.key}
                 className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-foreground/20 bg-background px-3 py-2 text-sm transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/10"
               >
                 <input
                   type="checkbox"
-                  checked={occasion.includes(occ)}
-                  onChange={() => toggleOccasion(occ)}
+                  checked={occasion.includes(occ.key)}
+                  onChange={() => toggleOccasion(occ.key)}
                   className="size-4 rounded border-foreground/30 text-primary focus:ring-primary"
                 />
-                {occ}
+                {occ.label}
               </label>
             ))}
           </div>

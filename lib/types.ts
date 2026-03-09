@@ -25,6 +25,17 @@ export type GiftOccasion =
   | "Get Well Soon"
   | "Congratulations";
 
+/** Occasion option from API (data/occasions.json) with label and image for display */
+export interface OccasionOption {
+  key: GiftOccasion;
+  label: string;
+  image: string;
+  /** Харуулах дараалал (бага тоо эхэнд) */
+  order?: number;
+  featured?: boolean;
+  dateLabel?: string;
+}
+
 export type GiftLocation = "Ulaanbaatar" | "Darkhan" | "Erdenet";
 
 export interface Gift {

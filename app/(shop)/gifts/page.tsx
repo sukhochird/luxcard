@@ -30,13 +30,17 @@ function buildGiftsQuery(
   const params = new URLSearchParams();
   const category = searchParams.category;
   if (category) {
-    const arr = Array.isArray(category) ? category : [category];
-    arr.forEach((c) => params.append("category", c));
+    const str = Array.isArray(category)
+      ? category.map((c) => encodeURIComponent(c)).join(",")
+      : String(category);
+    if (str) params.set("category", str);
   }
   const occasion = searchParams.occasion;
   if (occasion) {
-    const arr = Array.isArray(occasion) ? occasion : [occasion];
-    arr.forEach((o) => params.append("occasion", o));
+    const str = Array.isArray(occasion)
+      ? occasion.map((o) => encodeURIComponent(o)).join(",")
+      : String(occasion);
+    if (str) params.set("occasion", str);
   }
   const location = searchParams.location;
   if (location && location !== "All") params.set("location", String(location));
@@ -82,9 +86,6 @@ export default async function GiftsListPage({ searchParams }: PageProps) {
       <h1 className="mt-3 text-2xl font-bold text-foreground sm:text-3xl">
         Бэлгийн картууд
       </h1>
-      <p className="mt-1 text-sm text-foreground/80 sm:text-base">
-        Шүүж, Монгол дахь орон нутгийн бизнесээс сонгоно уу.
-      </p>
       <div className="mt-6 flex gap-6 lg:gap-8">
         <aside className="hidden w-[280px] shrink-0 lg:block">
           <div className="sticky top-24">

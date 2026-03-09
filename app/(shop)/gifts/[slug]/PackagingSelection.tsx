@@ -30,8 +30,8 @@ interface PackagingSelectionProps {
 
 function PackagingSelectionComponent({ value, onChange }: PackagingSelectionProps) {
   return (
-    <fieldset className="space-y-3">
-      <legend className="text-sm font-semibold text-foreground">
+    <fieldset className="space-y-3 border-0 p-0 m-0 min-w-0">
+      <legend className="mb-0 block px-0 text-sm font-semibold text-foreground">
         Бэлэглэл <span className="font-normal text-foreground/60">(заавал биш)</span>
       </legend>
       <div
@@ -44,12 +44,12 @@ function PackagingSelectionComponent({ value, onChange }: PackagingSelectionProp
           return (
             <label
               key={opt.id}
-              className={cn(
-                "flex cursor-pointer flex-col items-center rounded-xl border-2 p-4 transition-all duration-150 focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2",
-                value === opt.id
-                  ? "border-primary bg-primary/5 shadow-md"
-                  : "border-foreground/20 bg-background hover:border-foreground/40 hover:shadow"
-              )}
+            className={cn(
+              "flex cursor-pointer flex-col items-center rounded-xl border-2 p-4 transition-all duration-150",
+              value === opt.id
+                ? "border-primary bg-primary/5 shadow-md focus-within:ring-0"
+                : "border-foreground/20 bg-background hover:border-foreground/40 hover:shadow focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2"
+            )}
             >
               <input
                 type="radio"

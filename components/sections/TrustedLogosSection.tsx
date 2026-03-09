@@ -26,12 +26,52 @@ function LogoPlaceholder({ name, id }: { name: string; id: string }) {
   );
 }
 
+function MarqueeRow({
+  logos,
+  direction = "left",
+  duration = 30,
+}: {
+  logos: typeof LOGOS;
+  direction?: "left" | "right";
+  duration?: number;
+}) {
+  const duplicated = [...logos, ...logos];
+  return (
+    <div className="relative flex w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
+      <div
+        className="flex shrink-0 gap-6"
+        style={{
+          animation: `marquee-${direction} ${duration}s linear infinite`,
+        }}
+      >
+        {duplicated.map((logo, i) => (
+          <LogoPlaceholder
+            key={`${logo.id}-${i}`}
+            name={logo.name}
+            id={logo.id}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function TrustedLogosSection() {
   return (
     <section
       className="px-4 py-20 sm:px-6 lg:px-8"
       aria-labelledby="trusted-heading"
     >
+      <style>{`
+        @keyframes marquee-left {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        @keyframes marquee-right {
+          0% { transform: translateX(-50%); }
+          100% { transform: translateX(0); }
+        }
+      `}</style>
       <div className="mx-auto max-w-7xl">
         <h2
           id="trusted-heading"
@@ -39,12 +79,9 @@ export function TrustedLogosSection() {
         >
           500+ орон нутгийн бизнес итгэж байна
         </h2>
-        <div className="mt-8 flex justify-center overflow-x-auto pb-2 scrollbar-thin sm:overflow-visible sm:pb-0">
-          <div className="flex flex-nowrap gap-6 sm:flex-wrap sm:justify-center">
-            {LOGOS.map((logo) => (
-              <LogoPlaceholder key={logo.id} name={logo.name} id={logo.id} />
-            ))}
-          </div>
+        <div className="mt-8 flex flex-col gap-6">
+          <MarqueeRow logos={LOGOS} direction="left" duration={35} />
+          <MarqueeRow logos={LOGOS} direction="right" duration={40} />
         </div>
       </div>
     </section>

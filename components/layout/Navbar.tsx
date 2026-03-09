@@ -29,7 +29,7 @@ const SearchBar = dynamic(
 );
 
 const MAIN_LINKS = [
-  { href: "/gifts", label: "Бэлгүүд" },
+  { href: "/gifts", label: "Бэлгийн картууд" },
 ] as const;
 
 const MEGA_MENU_CATEGORIES: { href: string; label: string }[] = [
@@ -495,7 +495,7 @@ function NavbarComponent() {
             className="flex flex-1 flex-col gap-6 overflow-auto overscroll-contain p-4 pb-8"
             aria-label="Гар утасны цэс"
           >
-            {/* Main: Бэлгүүд */}
+            {/* Main: Бэлгийн картууд */}
             <section className="space-y-1">
               <h2 className="sr-only">Үндсэн</h2>
               {MAIN_LINKS.map((item) => (

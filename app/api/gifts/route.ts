@@ -1,14 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { loadGifts } from "@/lib/gifts-data";
+import { parseCommaParam } from "@/lib/gifts-filter-url";
 import type { Gift } from "@/lib/types";
 
-const PRICE_MIN = 0;
-const PRICE_MAX = 500000;
+const PRICE_MIN = 30_000;
+const PRICE_MAX = 3_000_000;
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const category = searchParams.getAll("category");
-  const occasion = searchParams.getAll("occasion");
+  const category = parseCommaParam(searchParams, "category");
+  const occasion = parseCommaParam(searchParams, "occasion");
   const location = searchParams.get("location");
   const priceMin = searchParams.get("priceMin");
   const priceMax = searchParams.get("priceMax");

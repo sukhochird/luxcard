@@ -9,9 +9,9 @@ export interface GiftFilterState {
   location: FilterLocation;
 }
 
-export const PRICE_MIN = 0;
-export const PRICE_MAX = 500000;
-export const PRICE_STEP = 25000;
+export const PRICE_MIN = 30_000;
+export const PRICE_MAX = 3_000_000;
+export const PRICE_STEP = 50_000;
 
 export const defaultGiftFilterState: GiftFilterState = {
   categories: [],

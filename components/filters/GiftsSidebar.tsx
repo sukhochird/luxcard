@@ -11,7 +11,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
-import { CATEGORIES, OCCASIONS } from "@/lib/data";
+import { setCommaParam, parseCommaParam } from "@/lib/gifts-filter-url";
+import { useFilterOptions } from "@/lib/use-filter-options";
 import type { GiftCategory, GiftOccasion, GiftLocation } from "@/lib/types";
 import { PRICE_MIN, PRICE_MAX, PRICE_STEP } from "@/lib/constants";
 import { cn } from "@/lib/utils";
@@ -28,8 +29,8 @@ function useQueryState() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const categories = searchParams.getAll("category") as GiftCategory[];
-  const occasions = searchParams.getAll("occasion") as GiftOccasion[];
+  const categories = parseCommaParam(searchParams, "category") as GiftCategory[];
+  const occasions = parseCommaParam(searchParams, "occasion") as GiftOccasion[];
   const location = (searchParams.get("location") as "All" | GiftLocation) ?? "All";
   const priceMin = searchParams.get("priceMin");
   const priceMax = searchParams.get("priceMax");
@@ -48,13 +49,11 @@ function useQueryState() {
     }) => {
       const next = new URLSearchParams(searchParams.toString());
       if (updates.category !== undefined) {
-        next.delete("category");
-        updates.category.forEach((c) => next.append("category", c));
+        setCommaParam(next, "category", updates.category);
         next.delete("page");
       }
       if (updates.occasion !== undefined) {
-        next.delete("occasion");
-        updates.occasion.forEach((o) => next.append("occasion", o));
+        setCommaParam(next, "occasion", updates.occasion);
         next.delete("page");
       }
       if (updates.location !== undefined) {
@@ -114,20 +113,24 @@ function useQueryState() {
   };
 }
 
-function FilterPill<T extends string>({
+type FilterOption = string | { value: string; label: string };
+
+function FilterPill({
   selected,
   onToggle,
   options,
   ariaLabel,
 }: {
-  selected: T[];
-  onToggle: (value: T) => void;
-  options: readonly T[];
+  selected: string[];
+  onToggle: (value: string) => void;
+  options: readonly FilterOption[];
   ariaLabel: string;
 }) {
   return (
     <div className="flex flex-wrap gap-2" role="group" aria-label={ariaLabel}>
-      {options.map((value) => {
+      {options.map((opt) => {
+        const value = typeof opt === "string" ? opt : opt.value;
+        const label = typeof opt === "string" ? opt : opt.label;
         const isSelected = selected.includes(value);
         return (
           <button
@@ -141,7 +144,7 @@ function FilterPill<T extends string>({
                 : "border-foreground/20 bg-background text-foreground hover:border-foreground/40"
             )}
           >
-            {value}
+            {label}
           </button>
         );
       })}
@@ -150,6 +153,7 @@ function FilterPill<T extends string>({
 }
 
 function SidebarContent() {
+  const { categories: categoryOptions, occasions: occasionOptions, loading, error } = useFilterOptions();
   const {
     categories,
     occasions,
@@ -180,6 +184,10 @@ function SidebarContent() {
         <label className="mb-1.5 block text-sm font-medium text-foreground">
           Ангилал
         </label>
+        {loading && <p className="mb-1.5 text-xs text-foreground/60">Ачааллаж байна...</p>}
+        {error && (
+          <p className="mb-1.5 text-xs text-red-600 dark:text-red-400">Ангилал ачааллахад алдаа гарлаа.</p>
+        )}
         <div className="flex flex-wrap gap-2" role="group" aria-label="Ангилалаар шүүх">
           <button
             type="button"
@@ -195,8 +203,8 @@ function SidebarContent() {
           </button>
           <FilterPill
             selected={categories}
-            onToggle={toggleCategory}
-            options={CATEGORIES}
+            onToggle={(v) => toggleCategory(v as GiftCategory)}
+            options={categoryOptions}
             ariaLabel=""
           />
         </div>
@@ -205,6 +213,10 @@ function SidebarContent() {
         <label className="mb-1.5 block text-sm font-medium text-foreground">
           Баяр ёслол
         </label>
+        {loading && <p className="mb-1.5 text-xs text-foreground/60">Ачааллаж байна...</p>}
+        {error && (
+          <p className="mb-1.5 text-xs text-red-600 dark:text-red-400">Баяр ёслол ачааллахад алдаа гарлаа.</p>
+        )}
         <div className="flex flex-wrap gap-2" role="group" aria-label="Баяр ёслолоор шүүх">
           <button
             type="button"
@@ -220,15 +232,15 @@ function SidebarContent() {
           </button>
           <FilterPill
             selected={occasions}
-            onToggle={toggleOccasion}
-            options={OCCASIONS}
+            onToggle={(v) => toggleOccasion(v as GiftOccasion)}
+            options={occasionOptions.map((o) => ({ value: o.key, label: o.label }))}
             ariaLabel=""
           />
         </div>
       </div>
       <div>
         <label className="mb-1.5 block text-sm font-medium text-foreground">
-          Үнийн диапазон: {priceRange[0].toLocaleString()}₮ – {priceRange[1].toLocaleString()}₮
+          Үнэ: {priceRange[0].toLocaleString()}₮ – {priceRange[1].toLocaleString()}₮
         </label>
         <Slider
           value={priceRange}
@@ -239,7 +251,7 @@ function SidebarContent() {
           max={PRICE_MAX}
           step={PRICE_STEP}
           minStepsBetweenThumbs={1}
-          aria-label="Үнийн диапазон"
+          aria-label="Үнэ"
         />
       </div>
       <div>

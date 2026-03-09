@@ -10,6 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { X } from "lucide-react";
+import { parseCommaParam, setCommaParam } from "@/lib/gifts-filter-url";
 import type { GiftCategory, GiftOccasion, GiftLocation } from "@/lib/types";
 
 export type SortOption =
@@ -19,10 +20,10 @@ export type SortOption =
   | "newest";
 
 const SORT_OPTIONS: { value: SortOption; label: string }[] = [
-  { value: "popular", label: "Most Popular" },
-  { value: "price-asc", label: "Price: Low to High" },
-  { value: "price-desc", label: "Price: High to Low" },
-  { value: "newest", label: "Newest" },
+  { value: "popular", label: "Хамгийн эрэлттэй" },
+  { value: "price-asc", label: "Үнэ: Багаас их рүү" },
+  { value: "price-desc", label: "Үнэ: Ихээс бага руу" },
+  { value: "newest", label: "Шинэчлэлт" },
 ];
 
 interface TopControlBarProps {
@@ -36,8 +37,8 @@ function useActiveFilters(): {
   searchParams: URLSearchParams;
 } {
   const searchParams = useSearchParams();
-  const categories = searchParams.getAll("category") as GiftCategory[];
-  const occasions = searchParams.getAll("occasion") as GiftOccasion[];
+  const categories = parseCommaParam(searchParams, "category") as GiftCategory[];
+  const occasions = parseCommaParam(searchParams, "occasion") as GiftOccasion[];
   const location = searchParams.get("location") as "All" | GiftLocation | null;
   const active: { type: "category" | "occasion" | "location"; label: string }[] = [];
   categories.forEach((c) => active.push({ type: "category", label: c }));
@@ -57,10 +58,10 @@ function buildUrlWithoutFilter(
     next.delete("location");
   } else {
     const key = type === "category" ? "category" : "occasion";
-    const values = next.getAll(key).filter((v) => v !== value);
-    next.delete(key);
-    values.forEach((v) => next.append(key, v));
+    const values = parseCommaParam(searchParams, key).filter((v) => v !== value);
+    setCommaParam(next, key, values);
   }
+  next.delete("page");
   const q = next.toString();
   return q ? `/gifts?${q}` : "/gifts";
 }
@@ -72,7 +73,7 @@ export function TopControlBar({ resultCount, sort, onSortChange }: TopControlBar
     <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div className="flex min-w-0 flex-wrap items-center gap-2">
         <span className="text-sm text-foreground/70">
-          {resultCount} {resultCount === 1 ? "result" : "results"}
+          {resultCount} үр дүн
         </span>
         {activeFilters.length > 0 && (
           <div className="flex flex-wrap gap-1.5">
@@ -81,7 +82,7 @@ export function TopControlBar({ resultCount, sort, onSortChange }: TopControlBar
                 key={`${type}-${label}`}
                 href={buildUrlWithoutFilter(searchParams, type, label)}
                 className="inline-flex items-center gap-1 rounded-full border border-foreground/20 bg-foreground/5 px-2.5 py-1 text-xs font-medium text-foreground transition-colors hover:bg-foreground/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-                aria-label={`Remove ${label} filter`}
+                aria-label={`${label} шүүлт устгах`}
               >
                 {label}
                 <X className="size-3" />
@@ -90,9 +91,9 @@ export function TopControlBar({ resultCount, sort, onSortChange }: TopControlBar
           </div>
         )}
       </div>
-      <Select value={sort} onValueChange={(v) => onSortChange(v as SortOption)} aria-label="Sort results">
+      <Select value={sort} onValueChange={(v) => onSortChange(v as SortOption)} aria-label="Үр дүнг эрэмбэлэх">
         <SelectTrigger className="w-full sm:w-[200px]">
-          <SelectValue placeholder="Sort by" />
+          <SelectValue placeholder="Эрэмбэлэх" />
         </SelectTrigger>
         <SelectContent>
           {SORT_OPTIONS.map((opt) => (
