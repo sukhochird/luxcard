@@ -13,7 +13,7 @@ const PROGRESS_TICK_MS = 50;
 const FLOATING_BADGES = [
   { icon: Clock, label: "Шууд хүргэлт" },
   { icon: ShieldCheck, label: "Аюулгүй төлбөр" },
-  { icon: Store, label: "Найдвартай худалдаа эрхлэгчид" },
+  { icon: Store, label: "Баталгаат дэлгүүрүүд" },
 ];
 
 const SLIDES = [
@@ -107,6 +107,9 @@ export function HeroSection({
               <span className="size-1.5 rounded-full bg-primary" />
               {slide.badge}
             </p>
+            <p className="mt-2 text-sm font-bold text-foreground sm:text-base">
+              50+ оронд · Төлбөр аюулгүй
+            </p>
             <h1
               id="hero-heading"
               className="mt-5 text-4xl font-bold leading-[1.15] tracking-tight text-foreground sm:text-5xl sm:leading-[1.12] lg:text-[3.25rem] lg:leading-[1.1] xl:text-6xl"
@@ -132,13 +135,14 @@ export function HeroSection({
               >
                 <Link href="/gifts" className="inline-flex items-center gap-2">
                   <Gift className="size-5 shrink-0" aria-hidden />
-                  Бэлгийн карт худалдаж авах
+                  <span className="hidden lg:inline">Бэлгийн карт </span>
+                  Худалдаж авах
                 </Link>
               </Button>
               <Button
-                variant="secondary"
+                variant="ghost"
                 size="lg"
-                className="min-h-12 rounded-2xl border border-foreground/20 px-7 py-6 text-base font-semibold transition-all duration-200 hover:-translate-y-0.5 hover:border-foreground/30 hover:bg-foreground/5 hover:shadow-md focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                className="min-h-12 rounded-2xl px-7 py-6 text-base font-medium text-foreground/80 transition-all duration-200 hover:bg-foreground/5 hover:text-foreground focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                 asChild
               >
                 <Link href="/gifts" className="inline-flex items-center gap-2">
@@ -147,11 +151,11 @@ export function HeroSection({
                 </Link>
               </Button>
             </div>
-            <p className="mt-6 text-sm text-foreground/60">
-              50+ орон нутгийн бизнес · Төлбөр аюулгүй
-            </p>
-            {/* Slider controls - dots + progress */}
-            <div className="mt-8 flex items-center gap-4">
+            {/* Slider controls - pagination label + dots + progress */}
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <span className="text-sm font-medium text-foreground/70 tabular-nums" aria-hidden>
+                {index + 1} / {SLIDES.length}
+              </span>
               <div className="flex gap-2" role="tablist" aria-label="Hero слайд сонгох">
                 {SLIDES.map((_, i) => (
                   <button
@@ -239,8 +243,8 @@ export function HeroSection({
                   <div
                     key={label}
                     className={cn(
-                      "flex items-center gap-3 rounded-xl border border-foreground/10 bg-background/95 px-4 py-3 shadow-lg backdrop-blur-md",
-                      "transition-all duration-200 hover:scale-[1.02] hover:border-primary/20 hover:bg-background hover:shadow-xl focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2"
+                      "flex items-center gap-3 rounded-xl border border-foreground/15 bg-white/90 px-4 py-3 shadow-lg shadow-black/15 backdrop-blur-xl dark:bg-background/90",
+                      "transition-all duration-200 hover:scale-[1.02] hover:border-primary/20 hover:bg-background/98 hover:shadow-xl focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2"
                     )}
                   >
                     <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">

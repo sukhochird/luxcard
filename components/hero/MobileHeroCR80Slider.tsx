@@ -110,29 +110,34 @@ export function MobileHeroCR80Slider() {
               ))}
             </div>
 
-            {/* Dots */}
+            {/* Pagination: label + dots */}
             <div
-              className="absolute bottom-2 left-0 right-0 z-10 flex justify-center gap-1.5"
+              className="absolute bottom-2 left-0 right-0 z-10 flex flex-col items-center gap-2"
               role="tablist"
               aria-label="Слайд сонгох"
             >
-              {SLIDES.map((_, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  role="tab"
-                  aria-selected={i === index}
-                  aria-label={`Слайд ${i + 1}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    goTo(i);
-                  }}
-                  className={cn(
-                    "h-1.5 rounded-full transition-all duration-300",
-                    i === index ? "w-5 bg-white" : "w-1.5 bg-white/50"
-                  )}
-                />
-              ))}
+              <span className="text-xs font-medium tabular-nums text-white/90 drop-shadow-sm" aria-hidden>
+                {index + 1} / {SLIDES.length}
+              </span>
+              <div className="flex justify-center gap-1.5">
+                {SLIDES.map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    role="tab"
+                    aria-selected={i === index}
+                    aria-label={`Слайд ${i + 1}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      goTo(i);
+                    }}
+                    className={cn(
+                      "h-1.5 rounded-full transition-all duration-300",
+                      i === index ? "w-5 bg-white" : "w-1.5 bg-white/50"
+                    )}
+                  />
+                ))}
+              </div>
             </div>
           </div>
       </div>
