@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import dynamic from "next/dynamic";
 import { Syne } from "next/font/google";
@@ -220,8 +221,32 @@ function CompanyMegaMenuDesktop({
                 );
               })}
                 </div>
-                {/* CTA */}
-                <div className="flex flex-col justify-end border-t border-foreground/10 pt-4 sm:border-t-0 sm:border-l sm:border-foreground/10 sm:pt-0 sm:pl-6">
+                {/* CTA + banner */}
+                <div className="flex flex-col justify-end gap-3 border-t border-foreground/10 pt-4 sm:border-t-0 sm:border-l sm:border-foreground/10 sm:pt-0 sm:pl-6">
+                  <Link
+                    href="/gifts"
+                    className="group relative block w-full overflow-hidden rounded-2xl border border-foreground/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset"
+                    aria-label="Онцлох санал — Шинэ жилийн бэлгийн карт"
+                  >
+                    <div className="relative aspect-[4/3] w-full min-w-[200px] sm:aspect-[3/2] sm:min-w-[240px]">
+                      <Image
+                        src="https://images.unsplash.com/photo-1467810563316-b5476525c0f9?w=480&q=85"
+                        alt=""
+                        fill
+                        sizes="(max-width: 640px) 100vw, 280px"
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" aria-hidden />
+                      <div className="absolute inset-0 flex flex-col justify-end p-4">
+                        <span className="text-[10px] font-semibold uppercase tracking-wider text-white/90">
+                          Онцлох
+                        </span>
+                        <span className="mt-0.5 text-base font-bold leading-tight text-white drop-shadow-sm sm:text-lg">
+                          Шинэ жилийн бэлгийн карт
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
                   <Link
                     href="/gifts"
                     className="inline-flex items-center justify-center gap-2 rounded-3xl bg-primary px-4 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-primary/90 hover:shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
