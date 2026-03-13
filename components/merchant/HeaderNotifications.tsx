@@ -51,28 +51,32 @@ export function HeaderNotifications() {
         <Button
           variant="ghost"
           size="icon"
-          className="relative size-9 shrink-0"
+          className={cn(
+            "relative size-9 shrink-0 rounded-lg",
+            "text-foreground/70 hover:bg-foreground/[0.06] hover:text-foreground/90",
+            "data-[state=open]:bg-foreground/[0.06] data-[state=open]:text-foreground/90"
+          )}
           aria-label={
             unread > 0
               ? `Мэдэгдэл ${unread} шинэ`
               : "Мэдэгдлийн жагсаалт"
           }
         >
-          <Bell className="size-5 text-foreground/80" />
+          <Bell className="size-5" />
           {unread > 0 && (
-            <span className="absolute -right-0.5 -top-0.5 flex size-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">
+            <span className="absolute right-0.5 top-0.5 flex size-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-white ring-2 ring-[var(--dashboard-surface)]">
               {unread > 9 ? "9+" : unread}
             </span>
           )}
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="w-[360px] p-0"
+        className="w-[360px] p-0 rounded-xl border-[var(--dashboard-border)] shadow-lg"
         align="end"
         sideOffset={8}
       >
-        <div className="flex items-center justify-between border-b border-foreground/10 px-4 py-3">
-          <h3 className="font-semibold text-foreground">Мэдэгдэл</h3>
+        <div className="flex items-center justify-between border-b border-[var(--dashboard-border)] px-4 py-3">
+          <h3 className="text-sm font-semibold text-foreground">Мэдэгдэл</h3>
           {unread > 0 && (
             <button
               type="button"
@@ -89,7 +93,7 @@ export function HeaderNotifications() {
               Мэдэгдэл байхгүй
             </div>
           ) : (
-            <ul className="divide-y divide-foreground/5">
+            <ul className="divide-y divide-[var(--dashboard-border)]">
               {items.map((n) => (
                 <li
                   key={n.id}

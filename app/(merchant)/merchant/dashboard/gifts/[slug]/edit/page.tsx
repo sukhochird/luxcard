@@ -45,8 +45,8 @@ export default async function MerchantGiftEditPage({ params }: PageProps) {
         </Link>
       </div>
 
-      <div className="rounded-2xl border border-foreground/10 bg-background p-6 shadow-sm sm:p-8">
-        <h1 className="text-xl font-bold text-foreground">
+      <div className="rounded-xl border border-[var(--dashboard-border)] bg-[var(--dashboard-surface)] p-6 shadow-sm sm:p-8">
+        <h1 className="text-xl font-bold tracking-tight text-foreground">
           Карт засах: {gift.title}
         </h1>
         <p className="mt-1 text-sm text-foreground/60">

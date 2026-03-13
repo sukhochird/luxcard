@@ -3,7 +3,6 @@ import { Navbar } from "@/components/layout/Navbar";
 import { MobileSearchStrip } from "@/components/layout/MobileSearchStrip";
 import { Footer } from "@/components/layout/Footer";
 import { HeroSection } from "@/components/hero/HeroSection";
-import { MobileHeroCR80Slider } from "@/components/hero/MobileHeroCR80Slider";
 import { OccasionsSection } from "@/components/sections/OccasionsSection";
 import { FeaturedExperiences } from "@/components/sections/FeaturedExperiences";
 import { FeaturedGiftCardsSection } from "@/components/sections/FeaturedGiftCardsSection";
@@ -39,10 +38,7 @@ export default async function MarketingPage() {
       <Navbar />
       <MobileSearchStrip />
       <main>
-        <div className="hidden md:block">
-          <HeroSection heroBlurDataURL={heroBlur} />
-        </div>
-        <MobileHeroCR80Slider />
+        <HeroSection heroBlurDataURL={heroBlur} />
         <OccasionsSection />
         <FeaturedExperiences />
         <FeaturedGiftCardsSection />

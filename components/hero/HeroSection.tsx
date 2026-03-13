@@ -9,6 +9,32 @@ import { cn } from "@/lib/utils";
 
 const PROGRESS_DURATION_MS = 5000;
 const PROGRESS_TICK_MS = 50;
+const BANNER_DURATION_MS = 5000;
+
+/** Түр hero контентыг нуух — зөвхөн баннер, доор нь шууд Баяр ёслол */
+const HERO_CONTENT_HIDDEN = true;
+
+const BANNER_SLIDES = [
+  {
+    id: 1,
+    image:
+      "https://rewards.coingate.com/_next/image?url=https%3A%2F%2Fdistributedrewards-production.s3.amazonaws.com%2Fuploads%2Fpromo_banner%2F38%2Fd9cd2a18-394b-42c9-904b-07f60730e1cc.png&w=3840&q=90",
+    alt: "Promo banner",
+    href: "/gifts",
+  },
+  {
+    id: 2,
+    image: "https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=1920&q=85",
+    alt: "Бэлгийн карт",
+    href: "/gifts",
+  },
+  {
+    id: 3,
+    image: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1920&q=85",
+    alt: "Онцлон санал",
+    href: "/categories",
+  },
+];
 
 const FLOATING_BADGES = [
   { icon: Clock, label: "Шууд хүргэлт" },
@@ -55,6 +81,7 @@ export function HeroSection({
   heroBlurDataURL?: string;
 } = {}) {
   const [index, setIndex] = useState(0);
+  const [bannerIndex, setBannerIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [progress, setProgress] = useState(1);
   const startTimeRef = useRef<number>(Date.now());
@@ -82,22 +109,153 @@ export function HeroSection({
     return () => clearInterval(t);
   }, [index, isPaused, goTo]);
 
+  useEffect(() => {
+    if (BANNER_SLIDES.length <= 1) return;
+    const t = setInterval(() => {
+      setBannerIndex((prev) => (prev + 1) % BANNER_SLIDES.length);
+    }, BANNER_DURATION_MS);
+    return () => clearInterval(t);
+  }, []);
+
   const slide = SLIDES[index];
+
+  const goToBanner = useCallback((i: number) => {
+    setBannerIndex((prev) => {
+      const n = BANNER_SLIDES.length;
+      const next = ((i % n) + n) % n;
+      return next;
+    });
+  }, []);
+  const nextBanner = useCallback(() => goToBanner(bannerIndex + 1), [bannerIndex, goToBanner]);
+  const prevBanner = useCallback(() => goToBanner(bannerIndex - 1), [bannerIndex, goToBanner]);
+
+  const bannerDragStartX = useRef(0);
+  const bannerJustDragged = useRef(false);
+  const handleBannerMouseDown = useCallback(
+    (e: React.MouseEvent) => {
+      bannerDragStartX.current = e.clientX;
+      bannerJustDragged.current = false;
+      const onUp = (upEvent: MouseEvent) => {
+        document.removeEventListener("mouseup", onUp);
+        const dx = upEvent.clientX - bannerDragStartX.current;
+        if (Math.abs(dx) > 50) {
+          bannerJustDragged.current = true;
+          if (dx > 0) prevBanner();
+          else nextBanner();
+        }
+      };
+      document.addEventListener("mouseup", onUp);
+    },
+    [prevBanner, nextBanner]
+  );
+  const handleBannerLinkClick = useCallback((e: React.MouseEvent) => {
+    if (bannerJustDragged.current) {
+      e.preventDefault();
+      bannerJustDragged.current = false;
+    }
+  }, []);
 
   return (
     <section
-      className="relative overflow-hidden px-4 py-14 sm:px-6 sm:py-20 lg:px-8 lg:py-24"
-      aria-labelledby="hero-heading"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-      onFocus={() => setIsPaused(true)}
-      onBlur={() => setIsPaused(false)}
+      className={cn(
+        "relative overflow-hidden pt-0 mt-4 px-4 sm:px-6 lg:px-8 sm:mt-6",
+        HERO_CONTENT_HIDDEN ? "pb-4" : "pb-14 sm:pb-20 lg:pb-24"
+      )}
+      aria-labelledby={HERO_CONTENT_HIDDEN ? undefined : "hero-heading"}
+      onMouseEnter={HERO_CONTENT_HIDDEN ? undefined : () => setIsPaused(true)}
+      onMouseLeave={HERO_CONTENT_HIDDEN ? undefined : () => setIsPaused(false)}
+      onFocus={HERO_CONTENT_HIDDEN ? undefined : () => setIsPaused(true)}
+      onBlur={HERO_CONTENT_HIDDEN ? undefined : () => setIsPaused(false)}
     >
+      {/* Top banner slider — header-ын доор зайгүй, section-ийн зайд */}
+      <div className="mx-auto max-w-7xl">
+        <div
+          className="group relative w-full cursor-grab overflow-hidden rounded-xl bg-foreground/5 active:cursor-grabbing"
+          onMouseDown={BANNER_SLIDES.length > 1 ? handleBannerMouseDown : undefined}
+        >
+          <div className="relative aspect-[32/9] w-full min-h-[140px] sm:min-h-[160px] md:min-h-[200px]">
+            {BANNER_SLIDES.map((banner, i) => (
+              <Link
+                key={banner.id}
+                href={banner.href}
+                onClick={handleBannerLinkClick}
+                className={cn(
+                  "absolute inset-0 block transition-opacity duration-500",
+                  i === bannerIndex ? "z-10 opacity-100" : "z-0 opacity-0 pointer-events-none"
+                )}
+                aria-hidden={i !== bannerIndex}
+              >
+                <Image
+                  src={banner.image}
+                  alt={banner.alt}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1280px) 100vw, 1280px"
+                  priority={i === 0}
+                />
+              </Link>
+            ))}
+          </div>
+          {BANNER_SLIDES.length > 1 && (
+            <>
+              <Button
+                type="button"
+                variant="secondary"
+                size="icon"
+                className="absolute left-2 top-1/2 z-20 size-9 -translate-y-1/2 rounded-full border-0 bg-black/40 shadow-md opacity-0 transition-opacity hover:bg-black/60 focus-visible:ring-2 group-hover:opacity-100"
+                aria-label="Өмнөх баннер"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  prevBanner();
+                }}
+              >
+                <ChevronLeft className="size-5 text-white" />
+              </Button>
+              <Button
+                type="button"
+                variant="secondary"
+                size="icon"
+                className="absolute right-2 top-1/2 z-20 size-9 -translate-y-1/2 rounded-full border-0 bg-black/40 shadow-md opacity-0 transition-opacity hover:bg-black/60 focus-visible:ring-2 group-hover:opacity-100"
+                aria-label="Дараагийн баннер"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  nextBanner();
+                }}
+              >
+                <ChevronRight className="size-5 text-white" />
+              </Button>
+              <div className="absolute bottom-2 left-1/2 z-20 flex -translate-x-1/2 gap-1.5">
+                {BANNER_SLIDES.map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    aria-label={`Баннер ${i + 1}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      goToBanner(i);
+                    }}
+                    className={cn(
+                      "h-1.5 rounded-full transition-all duration-300",
+                      i === bannerIndex ? "w-4 bg-white" : "w-1.5 bg-white/50"
+                    )}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+
+      {!HERO_CONTENT_HIDDEN && (
+        <>
       <div
         className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-primary/[0.03] via-transparent to-transparent"
         aria-hidden
       />
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-7xl pt-10 sm:pt-14">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
           <div className="order-2 lg:order-1">
             <p
@@ -260,6 +418,8 @@ export function HeroSection({
           </div>
         </div>
       </div>
+        </>
+      )}
     </section>
   );
 }

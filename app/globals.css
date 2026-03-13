@@ -17,6 +17,18 @@
     --foreground: #f0f0f2;
   }
 
+  /* Merchant dashboard surfaces */
+  :root {
+    --dashboard-sidebar: #f8f9fb;
+    --dashboard-surface: #ffffff;
+    --dashboard-border: rgba(10, 11, 13, 0.08);
+  }
+  .dark {
+    --dashboard-sidebar: rgba(255, 255, 255, 0.03);
+    --dashboard-surface: rgba(255, 255, 255, 0.04);
+    --dashboard-border: rgba(255, 255, 255, 0.08);
+  }
+
   body {
     @apply bg-background text-foreground antialiased;
   }

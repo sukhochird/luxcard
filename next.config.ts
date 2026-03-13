@@ -22,6 +22,16 @@ const nextConfig: NextConfig = {
         hostname: "i.picsum.photos",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "rewards.coingate.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "distributedrewards-production.s3.amazonaws.com",
+        pathname: "/**",
+      },
     ],
   },
 };

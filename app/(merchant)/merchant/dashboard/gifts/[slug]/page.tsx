@@ -46,25 +46,24 @@ export default async function MerchantGiftShowPage({ params }: PageProps) {
         </Link>
       </div>
 
-      <div className="rounded-2xl border border-foreground/10 bg-background shadow-sm overflow-hidden">
-        {/* Image */}
+      <div className="rounded-xl border border-[var(--dashboard-border)] bg-[var(--dashboard-surface)] shadow-sm overflow-hidden">
         <div
-          className="h-48 sm:h-56 bg-foreground/10 bg-cover bg-center"
+          className="h-44 sm:h-52 bg-foreground/10 bg-cover bg-center"
           style={{ backgroundImage: `url(${gift.image})` }}
         />
 
         <div className="p-6 sm:p-8">
           <div className="flex flex-wrap items-start justify-between gap-4">
-            <div>
-              <h1 className="text-2xl font-bold text-foreground">
+            <div className="min-w-0">
+              <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
                 {gift.title}
               </h1>
-              <p className="mt-1 text-foreground/70">{gift.merchant}</p>
+              <p className="mt-1 text-sm text-foreground/65">{gift.merchant}</p>
               <div className="mt-3 flex flex-wrap gap-2">
                 <Badge variant="secondary">{gift.category}</Badge>
                 <Badge variant="outline">{gift.location}</Badge>
                 {gift.featured && (
-                  <Badge className="bg-primary/20 text-primary">
+                  <Badge className="bg-primary/15 text-primary border-0">
                     Онцлох
                   </Badge>
                 )}
@@ -89,12 +88,12 @@ export default async function MerchantGiftShowPage({ params }: PageProps) {
             </div>
           </div>
 
-          <dl className="mt-8 grid gap-6 sm:grid-cols-2">
+          <dl className="mt-8 grid gap-6 sm:grid-cols-2 border-t border-[var(--dashboard-border)] pt-8">
             <div>
-              <dt className="text-xs font-semibold uppercase tracking-wider text-foreground/50">
+              <dt className="text-xs font-semibold uppercase tracking-wider text-foreground/55">
                 Үнийн сонголтууд (₮)
               </dt>
-              <dd className="mt-1 text-foreground">
+              <dd className="mt-1.5 tabular-nums text-foreground">
                 {gift.priceOptions
                   .slice()
                   .sort((a, b) => a - b)
@@ -104,20 +103,20 @@ export default async function MerchantGiftShowPage({ params }: PageProps) {
               </dd>
             </div>
             <div>
-              <dt className="text-xs font-semibold uppercase tracking-wider text-foreground/50">
+              <dt className="text-xs font-semibold uppercase tracking-wider text-foreground/55">
                 Хөнгөлөлт
               </dt>
-              <dd className="mt-1 text-foreground">
+              <dd className="mt-1.5 text-foreground">
                 {gift.discountPercent != null
                   ? `${gift.discountPercent}%`
                   : "—"}
               </dd>
             </div>
             <div className="sm:col-span-2">
-              <dt className="text-xs font-semibold uppercase tracking-wider text-foreground/50">
+              <dt className="text-xs font-semibold uppercase tracking-wider text-foreground/55">
                 Тохирох үзэгдэл
               </dt>
-              <dd className="mt-1 flex flex-wrap gap-1.5">
+              <dd className="mt-1.5 flex flex-wrap gap-1.5">
                 {gift.occasion.length > 0 ? (
                   gift.occasion.map((o) => (
                     <Badge key={o} variant="outline" className="font-normal">
@@ -130,29 +129,29 @@ export default async function MerchantGiftShowPage({ params }: PageProps) {
               </dd>
             </div>
             <div className="sm:col-span-2">
-              <dt className="text-xs font-semibold uppercase tracking-wider text-foreground/50">
+              <dt className="text-xs font-semibold uppercase tracking-wider text-foreground/55">
                 Тайлбар
               </dt>
-              <dd className="mt-1 text-foreground/90 whitespace-pre-wrap">
+              <dd className="mt-1.5 text-foreground/90 text-sm whitespace-pre-wrap">
                 {gift.description || "—"}
               </dd>
             </div>
             {gift.howToUse && (
               <div className="sm:col-span-2">
-                <dt className="text-xs font-semibold uppercase tracking-wider text-foreground/50">
+                <dt className="text-xs font-semibold uppercase tracking-wider text-foreground/55">
                   Хэрхэн ашиглах
                 </dt>
-                <dd className="mt-1 text-foreground/80 text-sm whitespace-pre-wrap">
+                <dd className="mt-1.5 text-foreground/80 text-sm whitespace-pre-wrap">
                   {gift.howToUse}
                 </dd>
               </div>
             )}
             {gift.termsOfUse && (
               <div className="sm:col-span-2">
-                <dt className="text-xs font-semibold uppercase tracking-wider text-foreground/50">
+                <dt className="text-xs font-semibold uppercase tracking-wider text-foreground/55">
                   Ашиглах нөхцөл
                 </dt>
-                <dd className="mt-1 text-foreground/80 text-sm whitespace-pre-wrap">
+                <dd className="mt-1.5 text-foreground/80 text-sm whitespace-pre-wrap">
                   {gift.termsOfUse}
                 </dd>
               </div>

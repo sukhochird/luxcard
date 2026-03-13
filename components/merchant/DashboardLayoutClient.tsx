@@ -27,7 +27,7 @@ export function DashboardLayoutClient({
 
   if (isLoading || !user) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-foreground/[0.03]">
+      <div className="flex min-h-screen items-center justify-center bg-[var(--dashboard-sidebar)]">
         <div className="size-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
       </div>
     );

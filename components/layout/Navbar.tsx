@@ -19,6 +19,7 @@ import { useCart } from "@/store/cart";
 import { useAuth } from "@/store/auth";
 import { AuthModal } from "@/components/layout/AuthModal";
 import { CartDrawer } from "@/components/cart/CartDrawer";
+import { LuxCardLogo } from "@/components/layout/LuxCardLogo";
 import { cn } from "@/lib/utils";
 
 const fontLogo = Syne({ subsets: ["latin"], weight: ["600", "700"], display: "swap" });
@@ -77,10 +78,10 @@ const NavLink = memo(function NavLink({
     <Link
       href={href}
       className={cn(
-        "rounded-lg px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+        "rounded-full border px-4 py-2 text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
         isActive
-          ? "text-primary"
-          : "text-foreground/80 hover:bg-foreground/5 hover:text-foreground"
+          ? "border-primary/30 bg-primary/5 text-primary dark:border-primary/30 dark:bg-primary/20 dark:text-primary"
+          : "border-gray-200 bg-white text-[#0a0b0d] hover:border-gray-300 hover:bg-gray-50 hover:text-[#0a0b0d] dark:border-zinc-600 dark:bg-zinc-800 dark:text-foreground dark:hover:border-zinc-500 dark:hover:bg-zinc-700"
       )}
     >
       {label}
@@ -136,10 +137,8 @@ function CompanyMegaMenuDesktop({
         aria-controls="company-mega-menu"
         id="company-trigger"
         className={cn(
-          "relative flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
-          isOpen
-            ? "text-primary"
-            : "text-foreground/80 hover:bg-foreground/[0.06] hover:text-foreground"
+          "relative flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-[#0a0b0d] transition-all duration-200 hover:bg-gray-50 hover:border-gray-300 hover:text-[#0a0b0d] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:border-zinc-600 dark:bg-zinc-800 dark:text-foreground dark:hover:border-zinc-500 dark:hover:bg-zinc-700",
+          isOpen && "border-primary/30 bg-primary/5 text-primary dark:border-primary/30 dark:bg-primary/20 dark:text-primary"
         )}
       >
         Company
@@ -147,12 +146,6 @@ function CompanyMegaMenuDesktop({
           className={cn("size-4 shrink-0 transition-transform duration-200", isOpen && "rotate-180")}
           aria-hidden
         />
-        {isOpen && (
-          <span
-            className="absolute bottom-0 left-2 right-2 h-0.5 rounded-full bg-primary"
-            aria-hidden
-          />
-        )}
       </button>
       <div
         id="company-mega-menu"
@@ -316,6 +309,7 @@ function NavbarComponent() {
   const isActive = useCallback(
     (href: string) => {
       if (href === "/") return pathname === "/";
+      if (href === "/gifts") return pathname === "/gifts" || pathname === "/gifts/";
       return pathname.startsWith(href);
     },
     [pathname]
@@ -328,33 +322,32 @@ function NavbarComponent() {
         scrolled ? "border-foreground/10 shadow-md" : "border-foreground/10"
       )}
     >
-      <div className="mx-auto grid h-14 w-full max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-2 px-3 sm:flex sm:h-16 sm:grid-cols-none sm:gap-4 sm:px-6 sm:py-2 lg:px-8">
-        {/* 1. Mobile: left — Hamburger. Desktop: not shown */}
-        <button
-          type="button"
-          onClick={() => setMobileOpen((o) => !o)}
-          className="flex min-h-11 min-w-11 items-center justify-center justify-self-start rounded-xl text-foreground/80 transition-colors active:bg-foreground/10 hover:bg-foreground/5 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:rounded-lg sm:min-w-0 sm:min-h-0 sm:p-2 md:hidden"
-          aria-expanded={mobileOpen}
-          aria-controls="mobile-menu"
-          aria-label={mobileOpen ? "Цэс хаах" : "Цэс нээх"}
-        >
-          {mobileOpen ? <X className="size-6" /> : <Menu className="size-6" />}
-        </button>
-
-        {/* 2. Mobile: center — Logo. Desktop: logo + nav */}
-        <div className="flex min-w-0 shrink items-center justify-center gap-2 sm:justify-start sm:gap-4">
+      <div className="mx-auto grid h-14 w-full max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-2 px-4 sm:flex sm:h-16 sm:grid-cols-none sm:gap-4 sm:px-6 sm:py-2 lg:px-8">
+        {/* 1. Logo зүүн эхэлж — Баяр ёслол-тай нэг түвшинд. Дараа нь hamburger (mobile), nav (desktop) */}
+        <div className="flex min-w-0 shrink items-center justify-start gap-2 sm:gap-4">
           <Link
             href="/"
             className={cn(
               fontLogo.className,
-              "truncate text-base font-semibold text-foreground transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded sm:text-xl"
+              "flex shrink-0 items-center gap-2 truncate text-base font-semibold text-foreground transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded sm:text-xl"
             )}
             aria-label="LuxCard нүүр"
           >
-            LuxCard
+            <LuxCardLogo className="size-8 shrink-0 text-primary sm:size-9" />
+            <span className="uppercase">LUXCARD</span>
           </Link>
+          <button
+            type="button"
+            onClick={() => setMobileOpen((o) => !o)}
+            className="flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-xl text-foreground/80 transition-colors active:bg-foreground/10 hover:bg-foreground/5 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:min-w-0 sm:min-h-0 sm:p-2 md:hidden"
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-menu"
+            aria-label={mobileOpen ? "Цэс хаах" : "Цэс нээх"}
+          >
+            {mobileOpen ? <X className="size-6" /> : <Menu className="size-6" />}
+          </button>
           <nav
-            className="hidden items-center gap-1 md:flex"
+            className="hidden items-center gap-2 md:flex"
             aria-label="Үндсэн цэс"
           >
             {MAIN_LINKS.map((item) => (
@@ -382,30 +375,34 @@ function NavbarComponent() {
           </div>
         </div>
 
-        {/* 4. Mobile: right — Theme + Basket. Desktop: theme + basket + profile/login */}
-        <div className="flex shrink-0 items-center justify-end gap-0.5 sm:gap-2">
+        {/* 4. Right — theme, cart (button style) | divider | login/profile */}
+        <div className="flex shrink-0 items-center justify-end gap-2 sm:gap-3">
           <button
             type="button"
             onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-            className="flex min-h-11 min-w-11 items-center justify-center rounded-xl text-foreground/80 transition-colors active:bg-foreground/10 hover:bg-foreground/5 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:rounded-lg sm:min-w-0 sm:min-h-0 sm:p-2"
+            className="flex size-10 items-center justify-center rounded-full border border-gray-200 bg-white text-foreground transition-colors hover:bg-gray-50 hover:border-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:border-zinc-600 dark:bg-zinc-800 dark:text-foreground dark:hover:bg-zinc-700 dark:hover:border-zinc-500"
             aria-label={resolvedTheme === "dark" ? "Гэрэлтэй горим" : "Харанхуй горим"}
           >
-            <Sun className="size-5 dark:hidden" aria-hidden />
-            <Moon className="size-5 hidden dark:block" aria-hidden />
+            <Sun className="size-5 shrink-0 dark:hidden" aria-hidden />
+            <Moon className="size-5 shrink-0 hidden dark:block" aria-hidden />
           </button>
           <button
             type="button"
             onClick={openCartDrawer}
-            className="relative flex min-h-11 min-w-11 items-center justify-center rounded-xl text-foreground/80 transition-colors active:bg-foreground/10 hover:bg-foreground/5 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:rounded-lg sm:min-w-0 sm:min-h-0 sm:p-2"
+            className="relative flex size-10 items-center justify-center rounded-full border border-gray-200 bg-white text-foreground transition-colors hover:bg-gray-50 hover:border-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:border-zinc-600 dark:bg-zinc-800 dark:text-foreground dark:hover:bg-zinc-700 dark:hover:border-zinc-500"
             aria-label={cartCount > 0 ? `Сагс, ${cartCount} бараа` : "Сагс"}
           >
-            <ShoppingCart className="size-5" aria-hidden />
+            <ShoppingCart className="size-5 shrink-0" aria-hidden />
             {cartCount > 0 && (
-              <span className="absolute right-0.5 top-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-white ring-2 ring-background sm:-right-0.5 sm:-top-0.5 sm:h-4 sm:min-w-4">
+              <span className="absolute -right-0.5 -top-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#1A6BFF] px-1 text-[10px] font-bold text-white">
                 {cartCount > 99 ? "99+" : cartCount}
               </span>
             )}
           </button>
+          <span
+            className="hidden h-6 w-px bg-gray-200 sm:block dark:bg-foreground/20"
+            aria-hidden
+          />
           {user ? (
             <div className="relative hidden sm:block" ref={profilePanelRef}>
               <button
@@ -416,7 +413,7 @@ function NavbarComponent() {
                 aria-controls="profile-menu"
                 id="profile-trigger"
                 className={cn(
-                  "flex items-center gap-2 rounded-xl border border-foreground/10 bg-foreground/5 px-3 py-2 text-sm font-medium text-foreground transition-all duration-200 hover:scale-[1.02] hover:shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+                  "flex items-center gap-2 rounded-full bg-white px-4 py-2.5 text-sm font-semibold text-[#111827] transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:bg-foreground/10 dark:text-foreground dark:hover:bg-foreground/20",
                   profileOpen && "ring-2 ring-primary ring-offset-2"
                 )}
               >
@@ -465,15 +462,16 @@ function NavbarComponent() {
               </div>
             </div>
           ) : (
-            <Button
-              size="sm"
-              className="hidden rounded-xl transition-all duration-200 hover:scale-[1.02] hover:shadow-lg sm:inline-flex"
-              style={{ backgroundColor: "#0052FF" }}
+            <button
+              type="button"
               onClick={openAuthModal}
+              className="hidden items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold text-white transition-colors hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:inline-flex"
+              style={{ backgroundColor: "#1A6BFF" }}
               aria-label="Нэвтрэх"
             >
+              <User className="size-4 shrink-0" aria-hidden />
               Нэвтрэх
-            </Button>
+            </button>
           )}
         </div>
       </div>
